@@ -29,6 +29,20 @@ This program lets users post, view, and search for TV show reviews.
 
 ## Project Structure
 
+The project entry point is app.js. The routes in app.js render the ejs pages. The .ejs files are under the views folder. The .js and .css files are under the public folder, as well as image files. The database_scripts folder is not required to build the program, but has the sql commands needed to locally set up the database. 
+
+### Database Scripts
+
+The database_scripts folder holds a sql file with the sql commands used to locally set up the database connected to this project.
+
+### Views Folder
+
+The views folder holds all embedded javascript files. These are generated dynamically based on data sent to the server. Each ejs is linked to a corresponding .js and .css file. Each ejs is also linked to the favicon image under public/images.
+
+### Public Folder
+
+The public folder holds all static files in the project. There is a folder for images, a folder for scripts, and a folder for styles. Each .ejs file has a corresponding .css and .js file stored in the public folder.
+
 ### Naming Conventions
 
 - **camelCase**
@@ -45,14 +59,3 @@ This program lets users post, view, and search for TV show reviews.
 - **CSS**
     - add Style to the end of the ==corresponding ejs== filename (ex: ==home==Style.css)
 
-### Database Scripts
-
-The database_scripts folder holds a sql file with the sql commands used to locally set up the database connected to this project.
-
-### Views Folder
-
-The views folder holds all embedded javascript files. These are generated dynamically based on data sent to the server. Each ejs is linked to a corresponding .js and .css file. Each ejs is also linked to the favicon image under public/images.
-
-### Public Folder
-
-The public folder holds all static files in the project. There is a folder for images, a folder for scripts, and a folder for styles. Each .ejs file has a corresponding .css and .js file stored in the public folder.
