@@ -55,7 +55,7 @@ The public folder holds all static files in the project. There is a folder for i
 - **UPPER_CASE**
     - .env variables (ex: ENV_VARIABLE)
 - **javaScript**
-    - add Script to the end of the ==corresponding ejs== filename (ex: ==home==Script.js)
+    - add Script to the end of the corresponding ejs filename (ex: homeScript.js)
 - **CSS**
-    - add Style to the end of the ==corresponding ejs== filename (ex: ==home==Style.css)
+    - add Style to the end of the corresponding ejs filename (ex: homeStyle.css)
 
