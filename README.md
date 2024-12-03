@@ -7,10 +7,10 @@
     - [Technologies](#technologies)
 - [User Guide](#user-guide)
 - [Project Structure](#project-structure)
-    - [Naming Conventions](#naming-conventions)
     - [Database Scripts](#database-scripts)
     - [Public Folder](#public-folder)
     - [Views Folder](#views-folder)
+    - [Naming Conventions](#naming-conventions)
 
 ## Overview
 
@@ -26,6 +26,13 @@ This program lets users post, view, and search for TV show reviews.
 - [Font Awesome](https://fontawesome.com)
 
 ## User Guide
+The user should enter the application on the home page. The home page will display recently posted reviews, if there are any. The user can click on a review to view the full post, or the user can click on the menu button at the top-left to view the menu. From the menu, the user can view the home page, create a review, or search for reviews. 
+
+If the user clicks "Post a Review" they will be taken to the form page. They will enter required info: (Show Title, Genre, Audience Rating, and Star Rating), and optional info: (Review Title, Review Content, and username).
+
+Once the user fills out the form correctly and presses post, they will be taken to a success page that shows the user how their post will appear on the website.
+
+If the user clicks on the menu and then clicks "Search" they will be taken to a search page. The user is able to search for reviews by searching for a title, keywords, genre, audience rating, star rating, and username. The user would also be able to sort the reviews by any of the above categories. 
 
 ## Project Structure
 
