@@ -146,6 +146,13 @@
                 <label for="reviewComment">Review: </label>
                 <textarea rows="4" name="reviewComment" id="reviewComment"></textarea>
 
+                <p class="err" id="usernameMaxErr">*25 character limit*</p>
+                <p class="err" id="usernameMinErr">*Username must be longer than 3 characters*</p>
+                <p class="err" id="invalidUsername">*That username is invalid*</p>
+                <label for="username">
+                    Username: <input type="text" id="username" name="username">
+                </label>
+
                 <button type="submit">Post <span class="fa-solid fa-paper-plane"></span></button> 
             </form>
         </main>

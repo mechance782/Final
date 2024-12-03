@@ -114,8 +114,25 @@ document.getElementById("reviewForm").onsubmit = function() {
         isValid = false;
         document.getElementById("reviewCommentMaxErr").style.display = "block";
     }
+    let username = document.getElementById("username").value;
 
     return isValid;
+}
+
+function usernameValidation(username){
+    if (username.length >= 25 ){
+        document.getElementById("usernameMaxErr").style.display = "block";
+        return false;
+    }
+    if (username.length <= 3 ){
+        document.getElementById("usernameMinErr").style.display = "block";
+        return false;
+    }
+    if (username.includes(" ")){
+        document.getElementById("invalidUsername").style.display = "block"
+        return false;
+    }
+    return;
 }
 
 function clearErrors(){
