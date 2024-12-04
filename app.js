@@ -41,11 +41,19 @@ app.get('/success', (req, res) => {
     res.send("You must post to access this page!");
 });
 
-app.post('/success', (req, res) => {
-    let data = req.body;
-    console.log(data);
+
+app.post('/success', async (req, res) => {
+    const data = req.body;
+
+    const conn = await connect();
+
+    await conn.query(`INSERT INTO posts (show_title, genres, audience_rating,
+        star_rating, review_title, review_comment, username) VALUES (
+        '${data.showTitle}', '${data.genres}', '${data.audienceRating}', ${data.starRating},
+         '${data.reviewTitle}', '${data.reviewComment}', '${data.username}'
+        )`);
     res.render('confirmation', {data: data});
-})
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`);
