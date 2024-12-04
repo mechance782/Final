@@ -122,7 +122,7 @@ document.getElementById("reviewForm").onsubmit = function() {
     }
 
     return isValid;
-}
+};
 
 // https://www.geeksforgeeks.org/username-validation-in-js-regex/
 // info about using regular expressions for username validation was found here ^
@@ -132,24 +132,25 @@ function usernameValidation(username){
         document.getElementById("usernameMaxErr").style.display = "block";
         nameValid = false;
     }
-    if (username.length <= 3 ){
-        document.getElementById("usernameMinErr").style.display = "block";
-        nameValid = false;
+    if (username.length !== 0){
+        if (username.length <= 3 ){
+            document.getElementById("usernameMinErr").style.display = "block";
+            nameValid = false;
+        }
+        const validChars = /^[a-zA-Z0-9_.]+$/;
+        const letters = /[a-zA-Z]+/;
+        if ((!validChars.test(username))|| (!letters.test(username))){
+            document.getElementById("invalidUsername").style.display = "block"
+            nameValid = false;
+        }
     }
-    const validChars = /^[a-zA-Z0-9_.]+$/;
-    const letters = /[a-zA-Z]+/;
-    if ((!validChars.test(username))|| (!letters.test(username))){
-        document.getElementById("invalidUsername").style.display = "block"
-        nameValid = false;
-    }
-    
     return nameValid;
-}
+};
 
 function clearErrors(){
     let errors = document.getElementsByClassName("err");
     for (let i=0; i < errors.length; i++){
         errors[i].style.display = "none";
     }
-}
+};
 
