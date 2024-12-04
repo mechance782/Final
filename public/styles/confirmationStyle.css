@@ -4,7 +4,7 @@ COLORS:
         background: #121212 (white)
         nav: 14% overlay
         menu: 11%
-        posts: 8% overlay
+        posts: 5% overlay
         form: 9% overlay
     primary: #5B9FAE (black)
     primary variant: #195E73 (white)
@@ -51,6 +51,11 @@ nav h1 {
 section > main {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
+    width: 85%;
+    margin: 1em auto;
+    background-color: rgba(255, 255, 255, 0.05);
+    /* padding: 1.5em; */
+    border-radius: 5px;
 }
 
 #menu {
@@ -64,11 +69,36 @@ section > main {
 
 main main {
     grid-column: 3/9;
+    background-color: rgba(255, 255, 255, 0.03);
+    width: 100%;
+    padding: 1em 1.5em;
 }
 
 main aside {
     grid-column: 1/3;
+    margin: 1em 1.5em;
 }
+
+/* #titleBox {
+    background-color: rgba(255, 255, 255, 0.05);
+    width: 120%;
+    line-height: 2.5em;
+} */
+
+hr {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+aside p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: .75em;
+}
+
+main > p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: .75em;
+}
+
 
 a {
     display: block;
