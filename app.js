@@ -43,6 +43,7 @@ app.get('/success', (req, res) => {
 
 app.post('/success', (req, res) => {
     let data = req.body;
+    console.log(data);
     res.render('confirmation', {data: data});
 })
 

@@ -128,7 +128,7 @@ document.getElementById("reviewForm").onsubmit = function() {
 // info about using regular expressions for username validation was found here ^
 function usernameValidation(username){
     let nameValid = true;
-    if (username.length >= 25 ){
+    if (username.length >= 20 ){
         document.getElementById("usernameMaxErr").style.display = "block";
         nameValid = false;
     }
