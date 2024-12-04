@@ -25,6 +25,10 @@ This program lets users post, view, and search for TV show reviews.
 - [nodemon](https://nodemon.io)
 - [Font Awesome](https://fontawesome.com)
 
+### Sources
+
+- [regEx for username validation](https://www.geeksforgeeks.org/username-validation-in-js-regex/)
+
 ## User Guide
 The user should enter the application on the home page. The home page will display recently posted reviews, if there are any. The user can click on a review to view the full post, or the user can click on the menu button at the top-left to view the menu. From the menu, the user can view the home page, create a review, or search for reviews. 
 
