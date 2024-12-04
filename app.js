@@ -41,6 +41,7 @@ app.get('/success', (req, res) => {
     res.send("You must post to access this page!");
 });
 
+
 app.post('/success', async (req, res) => {
     const data = req.body;
 
@@ -51,7 +52,6 @@ app.post('/success', async (req, res) => {
         '${data.showTitle}', '${data.genres}', '${data.audienceRating}', ${data.starRating},
          '${data.reviewTitle}', '${data.reviewComment}', '${data.username}'
         )`);
-
     res.render('confirmation', {data: data});
 });
 
