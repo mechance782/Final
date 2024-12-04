@@ -53,7 +53,7 @@ document.getElementById("starDisplay").onclick = function(event){
         document.getElementById("starRating").value = star;
         document.getElementById("starOutput").innerHTML = "(" + star + " stars)";
     }
-}
+};
 
 document.getElementById("reviewForm").onsubmit = function() {
     clearErrors();
@@ -90,15 +90,15 @@ document.getElementById("reviewForm").onsubmit = function() {
     }
 
     let audienceRatings = document.getElementsByName("audienceRating");
-    let audienceRating = true;
+    let ratingIsChecked = true;
     for (let i=0; i < audienceRatings.length; i++){
-        audienceRating = false;
+        ratingIsChecked = false;
         if (audienceRatings[i].checked){
-            audienceRating = true;
+            ratingIsChecked = true;
             i = audienceRatings.length;
         }
     }
-    if (audienceRating === false){
+    if (ratingIsChecked === false){
         isValid = false;
         document.getElementById("audienceRatingErr").style.display = "block";
     }
@@ -115,7 +115,35 @@ document.getElementById("reviewForm").onsubmit = function() {
         document.getElementById("reviewCommentMaxErr").style.display = "block";
     }
 
+    let username = document.getElementById("username").value;
+
+    if (usernameValidation(username) === false){
+        isValid = false;
+    }
+
     return isValid;
+}
+
+// https://www.geeksforgeeks.org/username-validation-in-js-regex/
+// info about using regular expressions for username validation was found here ^
+function usernameValidation(username){
+    let nameValid = true;
+    if (username.length >= 25 ){
+        document.getElementById("usernameMaxErr").style.display = "block";
+        nameValid = false;
+    }
+    if (username.length <= 3 ){
+        document.getElementById("usernameMinErr").style.display = "block";
+        nameValid = false;
+    }
+    const validChars = /^[a-zA-Z0-9_.]+$/;
+    const letters = /[a-zA-Z]+/;
+    if ((!validChars.test(username))|| (!letters.test(username))){
+        document.getElementById("invalidUsername").style.display = "block"
+        nameValid = false;
+    }
+    
+    return nameValid;
 }
 
 function clearErrors(){
