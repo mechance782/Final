@@ -115,24 +115,29 @@ document.getElementById("reviewForm").onsubmit = function() {
         document.getElementById("reviewCommentMaxErr").style.display = "block";
     }
     let username = document.getElementById("username").value;
+    isValid = usernameValidation(username);
 
     return isValid;
 }
 
+// https://www.geeksforgeeks.org/username-validation-in-js-regex/
+// info about using regular expressions for username validation was found here ^
 function usernameValidation(username){
+    let isValid;
     if (username.length >= 25 ){
         document.getElementById("usernameMaxErr").style.display = "block";
-        return false;
+        isValid = false;
     }
     if (username.length <= 3 ){
         document.getElementById("usernameMinErr").style.display = "block";
-        return false;
+        isValid = false;
     }
-    if (username.includes(" ")){
+    const validChars = /^[a-zA-Z0-9_.]$/;
+    if (!validChars.test(username)){
         document.getElementById("invalidUsername").style.display = "block"
-        return false;
+        isValid = false;
     }
-    return;
+    return isValid;
 }
 
 function clearErrors(){
