@@ -34,25 +34,41 @@
         </aside>
         <main>
                 <aside>
-                    <p>audience rating</p>
+                    <p><%= data.audienceRating %></p>
                     <p>Genres:</p>
+                    <p>
+                    <% if (data.genres instanceof Array){ %>
+                        <% for (let i = 0; i < data.genres.length; i++) { %>
+                            <%= data.genres[i] %>
+                            <br>
+                        <% } %>
+                    <% } else { %>
+                        <%= data.genres %>
+                    <% } %>
+                    </p>
                 </aside>
                 <main>
-                    <p id="usernameDisplay">Review by user</p>
+                    <p id="usernameDisplay">Review by 
+                        <% if (data.username === ""){ %>
+                            anonymous
+                        <% } else { %>
+                            <%= data.username %>
+                        <% } %>
+                    </p>
                     <hr>
                     <div id="titleBox">
-                        <h1>Tv show title</h1>    
+                        <h1><%= data.showTitle %></h1>    
                     </div>
                     
-                    <div>
-                        <span class="fa-solid fa-star"></span>
-                        <span class="fa-solid fa-star"></span>
-                        <span class="fa-solid fa-star"></span>
-                        <span class="fa-solid fa-star"></span>
-                        <span class="fa-solid fa-star"></span>
+                    <div id="ratingStars">
+                        <% for (let i = 0; i < data.starRating; i++) { %>
+                            <span class="fa-solid fa-star"></span>
+                        <% } %>
+                        <span id="numberStars"><%= data.starRating %> star<% if (data.starRating > 1) {%>s<% } %>
+                        </span>
                     </div>
-                    <h3>Review title</h3>
-                    <p>review content</p>
+                    <h3><%= data.reviewTitle %></h3>
+                    <p><%= data.reviewComment %></p>
                 </main>
         </main>
     </section>
