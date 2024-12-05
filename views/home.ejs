@@ -33,10 +33,10 @@
     </aside>
     <main>
 
-        <section id="recentPosts">
+        <section id="recentPostsDisplay">
             <% if (data.length > 0){ %>
                 <% for (let i =0; i < data.length; i++){ %>
-                    <div>
+                    <div class="recentPost">
                         <p><%= data[i].show_title %></p>
                         <p><%= data[i].star_rating %></p>
                         <p><%= data[i].id %></p>
