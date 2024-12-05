@@ -64,14 +64,16 @@ function escapeQuotation(input){
 
 app.post('/success', async (req, res) => {
     const data = req.body;
-    let showTitle = escapeQuotation(data.showTitle);
+    const showTitle = escapeQuotation(data.showTitle);
+    const reviewTitle = escapeQuotation(data.reviewTitle);
+    const reviewComment = escapeQuotation(data.reviewComment);
 
     const conn = await connect();
 
     await conn.query(`INSERT INTO posts (show_title, genres, audience_rating,
         star_rating, review_title, review_comment, username) VALUES (
         '${showTitle}', '${data.genres}', '${data.audienceRating}', ${data.starRating},
-         '${data.reviewTitle}', '${data.reviewComment}', '${data.username}'
+         '${reviewTitle}', '${reviewComment}', '${data.username}'
         )`);
     res.render('confirmation', {data: data});
 });
