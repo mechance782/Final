@@ -29,19 +29,8 @@ async function connect() {
     }
 }
 
-app.get('/', (req, res) => {
-    res.render('home');
-});
-
-app.get('/form', (req, res) => {
-    res.render('form');
-});
-
-app.get('/success', (req, res) => {
-    res.send("You must post to access this page!");
-});
-
-
+// if data input has quotations, this function inserts back slashes to escape the quotation
+// to avoid errors when reading data into database
 function escapeQuotation(input){
     let sentence = input.split("");
     for (let i = 0; i < sentence.length; i++){
@@ -61,6 +50,19 @@ function escapeQuotation(input){
     }
     return output;
 }
+
+// ROUTES 
+app.get('/', (req, res) => {
+    res.render('home');
+});
+
+app.get('/form', (req, res) => {
+    res.render('form');
+});
+
+app.get('/success', (req, res) => {
+    res.send("You must post to access this page!");
+});
 
 app.post('/success', async (req, res) => {
     const data = req.body;
