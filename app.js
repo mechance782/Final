@@ -42,14 +42,35 @@ app.get('/success', (req, res) => {
 });
 
 
+function escapeQuotation(input){
+    let sentence = input.split("");
+    for (let i = 0; i < sentence.length; i++){
+        if ((sentence[i] === "'")||(sentence[i] === '"')){
+            if (i === 0){
+                sentence.unshift(`\\`);
+                i++;
+            } else {
+                sentence.splice((i), 0, "\\");
+                i++;
+            }
+        }
+    }
+    let output = "";
+    for (let i=0; i < sentence.length; i++){
+        output+= sentence[i];
+    }
+    return output;
+}
+
 app.post('/success', async (req, res) => {
     const data = req.body;
+    let showTitle = escapeQuotation(data.showTitle);
 
     const conn = await connect();
 
     await conn.query(`INSERT INTO posts (show_title, genres, audience_rating,
         star_rating, review_title, review_comment, username) VALUES (
-        '${data.showTitle}', '${data.genres}', '${data.audienceRating}', ${data.starRating},
+        '${showTitle}', '${data.genres}', '${data.audienceRating}', ${data.starRating},
          '${data.reviewTitle}', '${data.reviewComment}', '${data.username}'
         )`);
     res.render('confirmation', {data: data});
