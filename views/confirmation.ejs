@@ -55,13 +55,17 @@
                     </p>
                 </aside>
                 <main>
-                    <p id="usernameDisplay">Review by 
-                        <% if (data.username === ""){ %>
-                            anonymous
-                        <% } else { %>
-                            <%= data.username %>
-                        <% } %>
-                    </p>
+                    <div id="nameDate">
+                        <p id="usernameDisplay">Review by 
+                            <% if (data.username === ""){ %>
+                                anonymous
+                            <% } else { %>
+                                <%= data.username %>
+                            <% } %>
+                        </p>
+                        <p><%= timestamp.month %>/<%= timestamp.day %>/<%= timestamp.year %></p>
+                    </div>
+
                     <hr>
                     <div id="titleBox">
                         <h1><%= data.showTitle %></h1>    
