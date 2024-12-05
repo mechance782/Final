@@ -75,7 +75,17 @@ app.post('/success', async (req, res) => {
         '${showTitle}', '${data.genres}', '${data.audienceRating}', ${data.starRating},
          '${reviewTitle}', '${reviewComment}', '${data.username}'
         )`);
-    res.render('confirmation', {data: data});
+
+    //get timestamp and concat onto data object to send to confirmations page
+    let timestampSql = await conn.query(`SELECT DATE(timestamp) AS timestamp FROM posts ORDER BY timestamp DESC LIMIT 1`);
+    timestampSql = new Date(timestampSql[0].timestamp);
+    const timestamp = {
+        year: timestampSql.getFullYear(),
+        month: timestampSql.getMonth() +1,
+        day: timestampSql.getDate()
+    };
+
+    res.render('confirmation', {data: data, timestamp: timestamp});
 });
 
 app.listen(PORT, () => {
