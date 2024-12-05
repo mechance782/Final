@@ -110,3 +110,12 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+#ratingStars {
+    color: #FFBF00;
+}
+
+#numberStars {
+    font-size: .75em;
+    color:hsla(45, 100%, 50%, 0.6);
+}
