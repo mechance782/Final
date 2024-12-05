@@ -80,13 +80,15 @@ a:hover {
 }
 
 /* POST STYLES */
+main {
+    padding: 0 1.5em;
+}
 
 #recentPostsDisplay {
     display: flex;
     flex-flow: row wrap;
-    width: 90%;
-    margin: 1em auto;
-    justify-content: space-around;
+    margin: 1em 0;
+    justify-content: space-between;
 }
 
 .recentPost {
