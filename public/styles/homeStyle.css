@@ -17,6 +17,10 @@ COLORS:
  */
 
 /* MAIN STYLES */
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: #121212 ;
     box-sizing:border-box;
@@ -74,6 +78,24 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+/* POST STYLES */
+
+#recentPostsDisplay {
+    display: flex;
+    flex-flow: row wrap;
+    width: 90%;
+    margin: 1em auto;
+    justify-content: space-around;
+}
+
+.recentPost {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    width: 30%;
+    margin-bottom: 1em;
+    padding: 1em;
+};
 
 @media screen and (max-width: 480px){
     aside {
