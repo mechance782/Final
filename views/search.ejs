@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/homeStyle.css" type="text/css">
+    <link rel="stylesheet" href="styles/searchStyle.css" type="text/css">
     <script src="https://kit.fontawesome.com/c6d4bf1353.js" crossorigin="anonymous"></script>
-    <script src="scripts/homeScript.js" defer></script>
+    <script src="scripts/searchScript.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/media.png" >
     <title>TV Reviews</title>
 </head>
@@ -32,8 +32,56 @@
             Search</a>
     </aside>
     <main>
-            <form id="" method="post" action="/search" >
+            <form id="searchForm" method="post" action="/search" >
+                <label for="keyword">
+                    Search by keyword:<input id="keyword" name="keyword" type="text">
+                </label>
 
+                <label for="author">
+                    Search by author:<input id="author" name="author" type="text">
+                </label>
+                
+                <label for="searchGenre">
+                    Search by genre:
+                    <span class="fa-solid fa-square-caret-down"></span>
+                </label>
+
+                <label for="searchAudienceRating">
+                    Search by audience rating: 
+                    <select name="searchAudienceRating" id="searchAudienceRating">
+                        <option value="" selected></option>
+                        <option value="Y">TV-Y</option>
+                        <option value="PG">TV-PG</option>
+                        <option value="14">TV-14</option>
+                        <option value="MA">TV-MA</option>
+                        <option value="unrated">Unrated</option>
+                    </select>
+                </label>
+                
+                <label for="searchStar">
+                    Search by star rating:
+                    <select name="searchStar" id="searchStar">
+                        <option value="" selected></option>
+                        <option value="ASC">Lowest-rated first</option>
+                        <option value="DESC">Highest-rated first</option>
+                        <option value="5">5 star reviews</option>
+                        <option value="4">4 star reviews</option>
+                        <option value="3">3 star reviews</option>
+                        <option value="2">2 star reviews</option>
+                        <option value="1">1 star reviews</option>
+                    </select>
+                </label>
+
+                <label for="searchTime">
+                    Search by time: 
+                    <select name="searchTime" id="searchTime">
+                        <option value="DESC" selected>Newest first</option>
+                        <option value="ASC">Oldest first</option>
+                        <option value="pastDay">From the past 24 hours</option>
+                        <option value="pastMonth">From the past month</option>
+                        <option value="pastYear">From the past year</option>
+                    </select>
+                </label>
             </form>
             <h2>results: </h2>
             <section id="recentPostsDisplay">
