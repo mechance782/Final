@@ -128,6 +128,31 @@ hr {
     font-size: .75em;
 }
 
+.reviewInfo {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.reviewTitle {
+    font-weight: bold;
+    margin-bottom: .5em;
+}
+
+.comment {
+    font-size: .8em;
+    margin-top: 0;
+}
+
+.usernameDisplay {
+    margin: 1em .25em .25em;
+    font-size: .8em;
+    text-align: end;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.usernameDisplay:hover{
+    color: #5B9FAE;
+}
+
 h2 {
     color: rgba(255, 255, 255, 0.6);
     font-size: 1.2em;
@@ -156,12 +181,13 @@ h1 {
 
 .recentPost span {
     color:#FFBF00;
+    font-size: .9em;
 }
 
 /* MOBILE STYLES */
 @media screen and (max-width: 480px) {
     aside {
-        width: 45%;
+        width: 50%;
     }
 }
 

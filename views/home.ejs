@@ -50,14 +50,17 @@
                                 </p>
                             </div>
                             <hr>
-
-                            <% for (let i =0; i < data[i].star_rating; i++){ %>
+                            <% let stars = Number(data[i].star_rating); %>
+                            <% for (let i =0; i < stars ; i++){ %>
                                 <span class="fa-solid fa-star"></span>
                             <% } %>
-                            <p><%= data[i].review_title %></p>
-                            <p><%= data[i].review_comment %></p>
-                            <p><%= data[i].username %></p>
-                            <p><%= data[i].id %></p>
+                            <div class="reviewInfo">
+                                <p class="reviewTitle"><%= data[i].review_title %></p>
+                                <p class="comment"><%= data[i].review_comment %></p>
+                                <a class="usernameDisplay" href="/search">
+                                    By: <%= data[i].username %>
+                                </a>
+                            </div>
                         </div>
                     <% } %>
                 <% } %>
