@@ -51,6 +51,103 @@ function escapeQuotation(input){
     return output;
 }
 
+async function searchFor(search){
+    let data;
+    const conn = await connect();
+    const keyword = escapeQuotation(search.keyword);
+    const rating = search.searchAudienceRating;
+    const star = search.searchStar;
+    const searchTime = search.searchTime;
+    let and = false;
+    let orderBy = `ORDER BY timestamp DESC`;
+    let searchQuery = `SELECT * FROM posts `;
+
+    if (keyword !== ""){
+        searchQuery+= `WHERE ((show_title LIKE '%${keyword}%') 
+        OR (review_title LIKE '%${keyword}%') OR (review_comment LIKE '%${keyword}%')) `;
+        and = true;
+    }
+
+    if (search.author !== ""){
+        if (and){
+            searchQuery+= `AND (username LIKE '%${search.author}%') `;
+        } else {
+            searchQuery+= `WHERE (username LIKE '%${search.author}%') `;
+            and = true;
+        }
+    }
+    
+    if (rating !== ''){
+        if (and){
+            searchQuery+= `AND (audience_rating = '${rating}') `;
+        } else {
+            searchQuery+= `WHERE (audience_rating = '${rating}') `;
+            and = true;
+        }
+    }
+
+    if (searchTime !== 'DESC'){
+        if (searchTime !== 'ASC'){
+            const currDate = new Date();
+            let pastDate = new Date()
+            if (searchTime === 'pastMonth'){
+                pastDate.setDate(currDate.getDate() - 30);
+                pastDate = pastDate.toISOString();
+                pastDate = pastDate.substring(0, 19);
+                if (and){
+                    searchQuery+= `AND (timestamp > '${pastDate}') `;
+                } else {
+                    searchQuery+= `WHERE (timestamp > '${pastDate}') `;
+                    and = true;
+                }
+            } else if (searchTime === 'pastDay'){
+                pastDate.setHours(currDate.getHours() - 23);
+                pastDate = pastDate.toISOString();
+                pastDate = pastDate.substring(0, 19);
+                if (and){
+                    searchQuery+= `AND (timestamp > '${pastDate}') `;
+                } else {
+                    searchQuery+= `WHERE (timestamp > '${pastDate}') `;
+                    and = true;
+                }
+            } else if (searchTime === 'pastYear'){
+                pastDate.setFullYear(currDate.getFullYear() - 1);
+                pastDate = pastDate.toISOString();
+                pastDate = pastDate.substring(0, 19);
+                if (and){
+                    searchQuery+= `AND (timestamp > '${pastDate}') `;
+                } else {
+                    searchQuery+= `WHERE (timestamp > '${pastDate}') `;
+                    and = true;
+                }
+            }
+        } else {
+            orderBy = `ORDER BY timestamp ASC`;
+        }
+    }
+
+    if (star !== ''){
+        if ((star !== 'ASC') || (star !== 'DESC')){
+            const starNumber = Number(star);
+            if (and){
+                searchQuery+= `AND (star_rating = ${starNumber}) `;
+            } else {
+                searchQuery+= `WHERE (star_rating = ${starNumber})`;
+                and = true;
+            }
+        } else if (star !== 'ASC'){
+            orderBy+= `, star_rating ASC`;
+        } else {
+            orderBy+= `, star_rating DESC`;
+        }
+    }
+
+    searchQuery+= orderBy;
+    searchQuery+= ` LIMIT 24`;
+    data = await conn.query(searchQuery);
+    return data;
+}
+
 // ROUTES 
 app.get('/', async (req, res) => {
     const conn = await connect();
@@ -110,15 +207,10 @@ app.get('/search', (req, res) => {
 //  searchStar
 //  searchTime
 app.post('/search', async (req, res) => {
-    const search =  req.body;
-    const conn = await connect();
-    const keyword = escapeQuotation(search.keyword);
-    let data;
-    if (keyword !== ""){
-        data = await conn.query(`SELECT * FROM posts 
-            WHERE (show_title LIKE '%${keyword}%') OR (review_title LIKE '%${keyword}%') 
-            OR (review_comment LIKE '%${keyword}%') ORDER BY timestamp DESC LIMIT 20`);
-    }
+    let search =  req.body;
+    console.log(search);
+    let data = await searchFor(search);
+    
     res.render('search', {data: data});
 })
 
