@@ -72,13 +72,17 @@ app.post('/success', async (req, res) => {
     const showTitle = escapeQuotation(data.showTitle);
     const reviewTitle = escapeQuotation(data.reviewTitle);
     const reviewComment = escapeQuotation(data.reviewComment);
+    let username = data.username;
+    if (username === ''){
+        username = 'anonymous';
+    }
 
     const conn = await connect();
 
     await conn.query(`INSERT INTO posts (show_title, genres, audience_rating,
         star_rating, review_title, review_comment, username) VALUES (
         '${showTitle}', '${data.genres}', '${data.audienceRating}', ${data.starRating},
-         '${reviewTitle}', '${reviewComment}', '${data.username}'
+         '${reviewTitle}', '${reviewComment}', '${username}'
         )`);
 
     //get timestamp and concat onto data object to send to confirmations page
