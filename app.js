@@ -97,6 +97,16 @@ app.post('/success', async (req, res) => {
     res.render('confirmation', {data: data, timestamp: timestamp});
 });
 
+app.get('/search', async (req, res) => {
+
+    res.render('search', {data: false});
+});
+
+app.post('/search', async (req, res) => {
+
+
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`);
 });

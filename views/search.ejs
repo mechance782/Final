@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/homeStyle.css" type="text/css">
+    <script src="https://kit.fontawesome.com/c6d4bf1353.js" crossorigin="anonymous"></script>
+    <script src="scripts/homeScript.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="images/media.png" >
+    <title>TV Reviews</title>
+</head>
+<body>
+    <nav>
+        <span id="menuButton" class="fa-solid fa-bars icon"></span>
+        <h1>TV Reviews</h1>
+    </nav>
+    <aside id="menu">
+            <a href="/">
+            <span class="fa-solid fa-house icon"></span>
+            Home</a>
+
+            <a href="">
+            <span class="fa-solid fa-star"></span>
+            Recent Reviews</a>
+
+            <a href="/form">
+            <span class="fa-solid fa-pen icon"></span>
+            Post a Review</a>
+
+            <a href="">
+            <span class="fa-solid fa-magnifying-glass icon"></span> 
+            Search</a>
+    </aside>
+    <main>
+            <form id="" method="post" action="/search" >
+
+            </form>
+            <h2>results: </h2>
+            <section id="recentPostsDisplay">
+                <% if (data){ %>
+                    <% for (let i =0; i < data.length; i++){ %>
+                        <div class="recentPost">
+                            <div class="showInfo">
+                                <h3><%= data[i].show_title %></h3>
+                                <p>
+                                    <% if (data[i].audience_rating === "unrated"){ %>
+                                        Unrated
+                                    <% } else { %>
+                                        TV-<%= data[i].audience_rating %>
+                                    <% } %>
+                                </p>
+                            </div>
+                            <hr>
+                            <% let stars = Number(data[i].star_rating); %>
+                            <% for (let i =0; i < stars ; i++){ %>
+                                <span class="fa-solid fa-star"></span>
+                            <% } %>
+                            <div class="reviewInfo">
+                                <p class="reviewTitle"><%= data[i].review_title %></p>
+                                <p class="comment"><%= data[i].review_comment %></p>
+                                <a class="usernameDisplay" href="/search">
+                                    By: <%= data[i].username %>
+                                </a>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } else { %>
+                    <p>No reviews found</p>
+                    <a href="/search">try again?</a>
+                <% } %>
+            </section>
+    </main>
+</body>
+</html>
