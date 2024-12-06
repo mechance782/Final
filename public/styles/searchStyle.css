@@ -90,6 +90,7 @@ input {
     background-color: transparent;
     border:#5B9FAE solid 1px;
     border-radius: 5px;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 select {

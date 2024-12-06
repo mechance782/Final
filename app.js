@@ -97,14 +97,29 @@ app.post('/success', async (req, res) => {
     res.render('confirmation', {data: data, timestamp: timestamp});
 });
 
-app.get('/search', async (req, res) => {
-
+// Search page without any searches
+app.get('/search', (req, res) => {
     res.render('search', {data: false});
 });
 
+// Search page after sending search query
+//  keyword
+//  author
+//  searchGenre
+//  searchAudienceRating
+//  searchStar
+//  searchTime
 app.post('/search', async (req, res) => {
-
-
+    const search =  req.body;
+    const conn = await connect();
+    const keyword = escapeQuotation(search.keyword);
+    let data;
+    if (keyword !== ""){
+        data = await conn.query(`SELECT * FROM posts 
+            WHERE (show_title LIKE '%${keyword}%') OR (review_title LIKE '%${keyword}%') 
+            OR (review_comment LIKE '%${keyword}%') ORDER BY timestamp DESC LIMIT 20`);
+    }
+    res.render('search', {data: data});
 })
 
 app.listen(PORT, () => {
