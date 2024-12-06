@@ -52,8 +52,11 @@ function escapeQuotation(input){
 }
 
 // ROUTES 
-app.get('/', (req, res) => {
-    res.render('home');
+app.get('/', async (req, res) => {
+    const conn = await connect();
+    const data = await conn.query(`SELECT * FROM posts ORDER BY timestamp DESC LIMIT 6`);
+
+    res.render('home', {data: data});
 });
 
 app.get('/form', (req, res) => {
