@@ -89,12 +89,13 @@ main {
     flex-flow: row wrap;
     margin: 1em 0;
     justify-content: space-around;
+    align-items: flex-start;
 }
 
 .recentPost {
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 5px;
-    width: 30%;
+    width: 45%;
     margin-bottom: 1em;
     padding: 0 .5em;
     border:#121212 solid 1px;
@@ -124,6 +125,7 @@ hr {
 
 .showInfo p {
     margin-top: .75em;
+    margin-right: .75em;
     color: rgba(255, 255, 255, 0.6);
     font-size: .75em;
 }
@@ -135,10 +137,11 @@ hr {
 .reviewTitle {
     font-weight: bold;
     margin-bottom: .5em;
+    font-size: .8em
 }
 
 .comment {
-    font-size: .8em;
+    font-size: .5em;
     margin-top: 0;
 }
 
@@ -192,7 +195,7 @@ h1 {
 }
 
 /* TABLET STYLES */
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 481px) {
     #pageSuggestion {
         text-align: end;
     }
@@ -200,9 +203,26 @@ h1 {
     #pageSuggestion a{
         padding: 0 1em;
     }
+    .recentPost span {
+        font-size: 1em;
+    }
+
+    .reviewTitle {
+        font-size: 1em;
+    }
+
+    .comment {
+        font-size: .8em;
+    }
 }
 
 /* DESKTOP STYLES */
 @media screen and (min-width: 960px) {
-    
+    .recentPost {
+        width: 30%;
+    }
+
+    .showInfo p {
+        font-size: .9em;
+    }
 }
