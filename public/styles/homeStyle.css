@@ -88,7 +88,7 @@ main {
     display: flex;
     flex-flow: row wrap;
     margin: 1em 0;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .recentPost {
@@ -96,11 +96,87 @@ main {
     border-radius: 5px;
     width: 30%;
     margin-bottom: 1em;
-    padding: 1em;
-};
+    padding: 0 .5em;
+    border:#121212 solid 1px;
+}
 
-@media screen and (max-width: 480px){
+.recentPost:hover {
+    border:#5B9FAE solid 1px;
+    cursor: auto;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+hr {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.showInfo {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.showInfo * {
+    display: inline-block;
+    margin-top: .5em;
+    margin-bottom: 0;
+}
+
+.showInfo p {
+    margin-top: .75em;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: .75em;
+}
+
+h2 {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.2em;
+    margin-top: .5em;
+}
+
+h1 {
+    font-size: 1.8em;
+    margin-bottom: 0;
+}
+
+#pageSuggestion {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+#pageSuggestion a {
+    padding: 2em 1em;
+    color:#5B9FAE;
+    display: inline;
+}
+
+#pageSuggestion a:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.recentPost span {
+    color:#FFBF00;
+}
+
+/* MOBILE STYLES */
+@media screen and (max-width: 480px) {
     aside {
         width: 45%;
     }
+}
+
+/* TABLET STYLES */
+@media screen and (min-width: 480px) {
+    #pageSuggestion {
+        text-align: end;
+    }
+
+    #pageSuggestion a{
+        padding: 0 1em;
+    }
+}
+
+/* DESKTOP STYLES */
+@media screen and (min-width: 960px) {
+    
 }

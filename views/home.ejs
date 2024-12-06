@@ -33,20 +33,40 @@
     </aside>
     <main>
         <h1>Home</h1>
-        <h2>Recent posts: </h2>
-        <section id="recentPostsDisplay">
-            <% if (data.length > 0){ %>
-                <% for (let i =0; i < data.length; i++){ %>
-                    <div class="recentPost">
-                        <p><%= data[i].show_title %></p>
-                        <p><%= data[i].star_rating %></p>
-                        <p><%= data[i].id %></p>
-                    </div>
-                <% } %>
-            <% } %>
-        </section>
+        <div>
+            <h2>Recent reviews: </h2>
+            <section id="recentPostsDisplay">
+                <% if (data.length > 0){ %>
+                    <% for (let i =0; i < data.length; i++){ %>
+                        <div class="recentPost">
+                            <div class="showInfo">
+                                <h3><%= data[i].show_title %></h3>
+                                <p>
+                                    <% if (data[i].audience_rating === "unrated"){ %>
+                                        Unrated
+                                    <% } else { %>
+                                        TV-<%= data[i].audience_rating %>
+                                    <% } %>
+                                </p>
+                            </div>
+                            <hr>
 
-        <a href="/form">Make your own post</a>
+                            <% for (let i =0; i < data[i].star_rating; i++){ %>
+                                <span class="fa-solid fa-star"></span>
+                            <% } %>
+                            <p><%= data[i].review_title %></p>
+                            <p><%= data[i].review_comment %></p>
+                            <p><%= data[i].username %></p>
+                            <p><%= data[i].id %></p>
+                        </div>
+                    <% } %>
+                <% } %>
+            </section>
+            <div id="pageSuggestion">
+                <a href="/form"><span class="fa-solid fa-pen"></span></a>
+                <a href="/search"><span class="fa-solid fa-magnifying-glass"></span></a>
+            </div>
+        </div>
     </main>
 </body>
 </html>
