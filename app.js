@@ -59,7 +59,8 @@ async function searchFor(search){
     const star = search.searchStar;
     const searchTime = search.searchTime;
     let and = false;
-    let orderBy = `ORDER BY timestamp DESC`;
+    let nestedOrder = false;
+    let timeOrderBy = `, timestamp DESC`;
     let searchQuery = `SELECT * FROM posts `;
 
     if (keyword !== ""){
@@ -89,9 +90,10 @@ async function searchFor(search){
     if (searchTime !== 'DESC'){
         if (searchTime !== 'ASC'){
             const currDate = new Date();
-            let pastDate = new Date()
+            let pastDate = new Date();
             if (searchTime === 'pastMonth'){
                 pastDate.setDate(currDate.getDate() - 30);
+                pastDate.setHours(pastDate.getHours() - 8);
                 pastDate = pastDate.toISOString();
                 pastDate = pastDate.substring(0, 19);
                 if (and){
@@ -101,7 +103,8 @@ async function searchFor(search){
                     and = true;
                 }
             } else if (searchTime === 'pastDay'){
-                pastDate.setHours(currDate.getHours() - 23);
+                pastDate.setDate(currDate.getDate() - 1);
+                pastDate.setHours(pastDate.getHours() - 8);
                 pastDate = pastDate.toISOString();
                 pastDate = pastDate.substring(0, 19);
                 if (and){
@@ -112,6 +115,7 @@ async function searchFor(search){
                 }
             } else if (searchTime === 'pastYear'){
                 pastDate.setFullYear(currDate.getFullYear() - 1);
+                pastDate.setHours(pastDate.getHours() - 8);
                 pastDate = pastDate.toISOString();
                 pastDate = pastDate.substring(0, 19);
                 if (and){
@@ -122,30 +126,43 @@ async function searchFor(search){
                 }
             }
         } else {
-            orderBy = `ORDER BY timestamp ASC`;
+            timeOrderBy = `, timestamp ASC`;
         }
     }
 
     if (star !== ''){
-        if ((star !== 'ASC') || (star !== 'DESC')){
+        if ((star !== 'ASC') && (star !== 'DESC')){
             const starNumber = Number(star);
             if (and){
                 searchQuery+= `AND (star_rating = ${starNumber}) `;
             } else {
-                searchQuery+= `WHERE (star_rating = ${starNumber})`;
+                searchQuery+= `WHERE (star_rating = ${starNumber}) `;
                 and = true;
             }
-        } else if (star !== 'ASC'){
-            orderBy+= `, star_rating ASC`;
+        } else if (star === 'ASC'){
+            nestedOrder = true;
+            orderBy= `ORDER BY star_rating ASC`;
         } else {
-            orderBy+= `, star_rating DESC`;
+            nestedOrder = true;
+            orderBy= `ORDER BY star_rating DESC`;
         }
     }
 
-    searchQuery+= orderBy;
+    if (nestedOrder) {
+        orderBy+= timeOrderBy;
+        searchQuery+= orderBy;
+    } else {
+        searchQuery += `ORDER BY `;
+        searchQuery+= timeOrderBy.substring(1, timeOrderBy.length);
+    }
+
     searchQuery+= ` LIMIT 24`;
-    data = await conn.query(searchQuery);
-    return data;
+    try {
+        data = await conn.query(searchQuery);
+        return data;
+    } catch (err) {
+        console.log('Error with sql query: ' + err);
+    }
 }
 
 // ROUTES 
