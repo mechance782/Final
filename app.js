@@ -181,6 +181,41 @@ async function searchFor(search){
     }
 }
 
+async function getKeywords(post){
+    let keywords = [];
+    let showTitle = escapeQuotation(post[0].show_title);
+    let reviewTitle = escapeQuotation(post[0].review_title);
+    let reviewComment = escapeQuotation(post[0].review_comment);
+    showTitle = showTitle.split(" ");
+    reviewTitle = reviewTitle.split(" ");
+    reviewComment = reviewComment.split(" ")
+    keywords = keywords.concat(showTitle);
+    keywords = keywords.concat(reviewTitle);
+    keywords = keywords.concat(reviewComment);
+    const conn = await connect();
+    let andOr = false;
+    let selectQuery = `SELECT * FROM posts WHERE (`;
+    for (let i =0; i < keywords.length; i++){
+        if (keywords[i].length > 3){
+            if (andOr === false){
+                selectQuery+= `(show_title LIKE '%${keywords[i]}%') 
+                OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%') `
+                andOr = true;
+            } else {
+                selectQuery+= `OR (show_title LIKE '%${keywords[i]}%') 
+                OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%') `;
+            }
+        }
+    }
+    selectQuery+= `) AND ( id != ${post[0].id} ) LIMIT 6`;
+    let data = await conn.query(selectQuery);
+    if (data.length < 2 ){
+        data = await conn.query(`SELECT * FROM posts ORDER BY timestamp DESC LIMIT 6`);
+    }
+    conn.end();
+    return data;
+}
+
 // ROUTES 
 app.get('/', async (req, res) => {
     const conn = await connect();
@@ -255,8 +290,9 @@ app.get('/viewPost/:id', async (req, res) => {
     const conn = await connect();
     const post = await conn.query(`SELECT * FROM posts WHERE id = ${id}`);
     conn.end();
-    console.log(post);
-    res.render('viewPost', {data: post});
+    const relatedPosts = await getKeywords(post);
+    console.log(relatedPosts);
+    res.render('viewPost', {data: post, related: relatedPosts});
 });
 
 app.listen(PORT, () => {
