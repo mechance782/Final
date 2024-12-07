@@ -83,7 +83,7 @@
             </form>
             <h2>results: </h2>
             <section id="recentPostsDisplay">
-                <% if (data){ %>
+                <% if (data.length !== 0){ %>
                     <% for (let i =0; i < data.length; i++){ %>
                         <div class="recentPost">
                             <div class="showInfo">
@@ -111,8 +111,17 @@
                         </div>
                     <% } %>
                 <% } else { %>
-                    <p>No reviews found</p>
-                    <a href="/search">try again?</a>
+                    <div id="noReviews">
+                        <p>No reviews found 
+                        <% if (search.length !== 0) { %>
+                            <% if (search.keyword !== ""){ %>
+                                for keyword: "<%=search.keyword %>"
+                            <% } else if (search.author !== ""){ %>
+                                for author: "<%=search.author %>"
+                            <% } %>
+                        <% } %>
+                        </p>
+                    </div>
                 <% } %>
             </section>
     </main>

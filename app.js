@@ -213,7 +213,7 @@ app.post('/success', async (req, res) => {
 
 // Search page without any searches
 app.get('/search', (req, res) => {
-    res.render('search', {data: false});
+    res.render('search', {data: [], search: []});
 });
 
 // Search page after sending search query
@@ -227,8 +227,7 @@ app.post('/search', async (req, res) => {
     let search =  req.body;
     console.log(search);
     let data = await searchFor(search);
-    
-    res.render('search', {data: data});
+    res.render('search', {data: data, search: search});
 })
 
 app.listen(PORT, () => {
