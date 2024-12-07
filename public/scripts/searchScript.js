@@ -9,3 +9,19 @@ document.getElementById("menuButton").onclick = function() {
         document.getElementById("menuButton").style.backgroundColor = "";
     }
 };
+
+document.getElementById("genreButton").onclick = function() {
+    if (document.getElementById("genreDropDown").style.display === "none"){
+        if (window.innerWidth > 960){
+            document.getElementById("genreDropDown").style.display = "block";
+        } else {
+            document.getElementById("genreDropDown").style.display = "flex";
+        }
+        document.getElementById("genreButtonDown").style.display = "none";
+        document.getElementById("genreButtonUp").style.display = "inline";
+        } else {
+        document.getElementById("genreDropDown").style.display = "none";
+        document.getElementById("genreButtonDown").style.display = "inline";
+        document.getElementById("genreButtonUp").style.display = "none";
+        }
+};

@@ -70,6 +70,20 @@ async function searchFor(search){
         and = true;
     }
 
+    if (search.genres !== ""){
+        if (and){
+            for(let i =1; i < search.genres.length; i++){
+                searchQuery+= `AND (genres LIKE '%${search.genres[i]}%') `;  
+            }
+        } else {
+            searchQuery+= `WHERE (genres LIKE '%${search.genres[1]}%') `;
+            for(let i =2; i < search.genres.length; i++){
+                searchQuery+= `AND (genres LIKE '%${search.genres[i]}%') `;  
+            }
+            and = true;
+        }
+    }
+
     if (search.author !== ""){
         if (and){
             searchQuery+= `AND (username LIKE '%${search.author}%') `;
@@ -226,13 +240,14 @@ app.get('/search/:category/:query', async (req, res) => {
     const { category, query } = req.params;
     let data;
     const conn = await connect();
+    let author;
     if (category === 'genre'){
         data = await conn.query(`SELECT * FROM posts WHERE genres LIKE '%${query}%' ORDER BY timestamp DESC LIMIT 24`);
     } else if (category === 'username'){
         data = await conn.query(`SELECT * FROM posts WHERE username LIKE '%${query}%' ORDER BY timestamp DESC LIMIT 24`);
     }
     conn.end();
-    res.render('search', {data: data, search: []});
+    res.render('search', {data: data, search: query });
 })
 
 app.get('/viewPost/:id', async (req, res) => {
