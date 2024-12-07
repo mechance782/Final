@@ -210,7 +210,7 @@ async function getKeywords(post){
     selectQuery+= `) AND ( id != ${post[0].id} ) LIMIT 6`;
     let data = await conn.query(selectQuery);
     if (data.length < 2 ){
-        data = await conn.query(`SELECT * FROM posts ORDER BY timestamp DESC LIMIT 6`);
+        data = await conn.query(`SELECT * FROM posts WHERE ( id != ${post[0].id} ) ORDER BY timestamp DESC LIMIT 6`);
     }
     conn.end();
     return data;
@@ -267,7 +267,8 @@ app.get('/search', (req, res) => {
 app.post('/search', async (req, res) => {
     let search =  req.body;
     console.log(search);
-    let data = await searchFor(search);
+    let data = {};
+    data = await searchFor(search);
     res.render('search', {data: data, search: search});
 })
 
