@@ -34,7 +34,8 @@
             <section id="recentPostsDisplay">
                 <% if (data.length > 0){ %>
                     <% for (let i =0; i < data.length; i++){ %>
-                        <div class="recentPost">
+                        <div class="recentPost" onclick="this.firstElementChild.submit()">
+                            <form action="/viewPost/<%=data[i].id%>" method="get" >
                             <div class="showInfo">
                                 <h3><%= data[i].show_title %></h3>
                                 <p>
@@ -53,10 +54,11 @@
                             <div class="reviewInfo">
                                 <p class="reviewTitle"><%= data[i].review_title %></p>
                                 <p class="comment"><%= data[i].review_comment %></p>
-                                <a class="usernameDisplay" href="/search">
+                                <a class="usernameDisplay" href="/search/username/<%= data[i].username %>">
                                     By: <%= data[i].username %>
                                 </a>
                             </div>
+                            </form>
                         </div>
                     <% } %>
                 <% } %>

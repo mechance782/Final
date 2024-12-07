@@ -9,4 +9,3 @@ document.getElementById("menuButton").onclick = function() {
         document.getElementById("menuButton").style.backgroundColor = "";
     }
 };
-

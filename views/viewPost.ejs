@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/confirmationStyle.css" type="text/css">
+    <link rel="stylesheet" href="/styles/viewPostStyle.css" type="text/css">
     <script src="https://kit.fontawesome.com/c6d4bf1353.js" crossorigin="anonymous"></script>
-    <script src="scripts/confirmationScript.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="images/media.png" >
+    <script src="/scripts/viewPostScript.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="/images/media.png" >
     <title>TV Reviews</title>
 </head>
 <body>
@@ -30,53 +30,54 @@
         <section id="post">
                 <aside>
                     <div>
+                        <!-- show_title, genres, audience_rating,
+                        star_rating, review_title, review_comment, username -->
                         <p class="genreLabel">Genres:</p>
                         <p class="genreLabel">
-                        <% if (data.genres instanceof Array){ %>
-                            <% for (let i = 0; i < data.genres.length; i++) { %>
-                                <%= data.genres[i] %>
+                        <% if (data[0].genres.includes(",")){ %>
+                            <% const genres = data[0].genres.split(","); %>
+                            <% for (let i = 0; i < genres.length; i++) { %>
+                                <a href="/search/genre/<%= genres[i] %>"> <%= genres[i] %> </a>
                                 <br>
                             <% } %>
                         <% } else { %>
-                            <%= data.genres %>
+                            <a href="/search/genre/<%= data[0].genres %>"><%= data[0].genres %></a>
                         <% } %>
                         </p>
                     </div>
 
                     <p>
-                        <% if (data.audienceRating === "unrated"){ %>
+                        <% if (data[0].audience_rating === "unrated"){ %>
                             Unrated
                         <% } else { %>
-                            TV-<%= data.audienceRating %>
+                            TV-<%= data[0].audience_rating %>
                         <% } %>
                     </p>
                 </aside>
                 <main>
                     <div id="nameDate">
-                        <p id="usernameDisplay">Review by 
-                            <% if (data.username === ""){ %>
-                                anonymous
-                            <% } else { %>
-                                <%= data.username %>
-                            <% } %>
+                        <p id="usernameDisplay" href="/search/username/<%= data[0].username %>">Review by 
+                            <a href="/search/username/<%= data[0].username %>">
+                                <%= data[0].username %>
+                            </a>
                         </p>
-                        <p><%= timestamp.month %>/<%= timestamp.day %>/<%= timestamp.year %></p>
+                        <p><%=data[0].timestamp.toLocaleDateString() %></p>
                     </div>
 
                     <hr>
                     <div id="titleBox">
-                        <h1><%= data.showTitle %></h1>    
+                        <h1><%= data[0].show_title %></h1>    
                     </div>
                     
                     <div id="ratingStars">
-                        <% for (let i = 0; i < data.starRating; i++) { %>
+                        <% for (let i = 0; i < data[0].star_rating; i++) { %>
                             <span class="fa-solid fa-star"></span>
                         <% } %>
-                        <span id="numberStars"><%= data.starRating %> star<% if (data.starRating > 1) {%>s<% } %>
+                        <span id="numberStars"><%= data[0].star_rating %> star<% if (data[0].star_rating > 1) {%>s<% } %>
                         </span>
                     </div>
-                    <h3><%= data.reviewTitle %></h3>
-                    <p id="commentField"><%= data.reviewComment %></p>
+                    <h3><%= data[0].review_title %></h3>
+                    <p id="commentField"><%= data[0].review_comment %></p>
                 </main>
         </section>
 </body>

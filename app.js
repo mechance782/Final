@@ -15,7 +15,8 @@ const PORT = 300;
 
 app.use(express.urlencoded({extended: false}));
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use(express.static(__dirname + "/public"));
 
 app.set('view engine', 'ejs');
 
@@ -159,6 +160,7 @@ async function searchFor(search){
     searchQuery+= ` LIMIT 24`;
     try {
         data = await conn.query(searchQuery);
+        conn.end();
         return data;
     } catch (err) {
         console.log('Error with sql query: ' + err);
@@ -169,16 +171,12 @@ async function searchFor(search){
 app.get('/', async (req, res) => {
     const conn = await connect();
     const data = await conn.query(`SELECT * FROM posts ORDER BY timestamp DESC LIMIT 6`);
-
+    conn.end();
     res.render('home', {data: data});
 });
 
 app.get('/form', (req, res) => {
     res.render('form');
-});
-
-app.get('/success', (req, res) => {
-    res.send("You must post to access this page!");
 });
 
 app.post('/success', async (req, res) => {
@@ -199,16 +197,10 @@ app.post('/success', async (req, res) => {
          '${reviewTitle}', '${reviewComment}', '${username}'
         )`);
 
-    //get timestamp and concat onto data object to send to confirmations page
-    let timestampSql = await conn.query(`SELECT DATE(timestamp) AS timestamp FROM posts ORDER BY timestamp DESC LIMIT 1`);
-    timestampSql = new Date(timestampSql[0].timestamp);
-    const timestamp = {
-        year: timestampSql.getFullYear(),
-        month: timestampSql.getMonth() +1,
-        day: timestampSql.getDate()
-    };
-
-    res.render('confirmation', {data: data, timestamp: timestamp});
+    let id = await conn.query(`SELECT id FROM posts ORDER BY id DESC LIMIT 1`);
+    id = id[0].id;
+    conn.end();
+    res.redirect(`/viewPost/${id}`);
 });
 
 // Search page without any searches
@@ -229,6 +221,28 @@ app.post('/search', async (req, res) => {
     let data = await searchFor(search);
     res.render('search', {data: data, search: search});
 })
+
+app.get('/search/:category/:query', async (req, res) => {
+    const { category, query } = req.params;
+    let data;
+    const conn = await connect();
+    if (category === 'genre'){
+        data = await conn.query(`SELECT * FROM posts WHERE genres LIKE '%${query}%' ORDER BY timestamp DESC LIMIT 24`);
+    } else if (category === 'username'){
+        data = await conn.query(`SELECT * FROM posts WHERE username LIKE '%${query}%' ORDER BY timestamp DESC LIMIT 24`);
+    }
+    conn.end();
+    res.render('search', {data: data, search: []});
+})
+
+app.get('/viewPost/:id', async (req, res) => {
+    const { id } = req.params;
+    const conn = await connect();
+    const post = await conn.query(`SELECT * FROM posts WHERE id = ${id}`);
+    conn.end();
+    console.log(post);
+    res.render('viewPost', {data: post});
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`);
