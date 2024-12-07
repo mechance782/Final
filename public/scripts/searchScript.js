@@ -12,7 +12,11 @@ document.getElementById("menuButton").onclick = function() {
 
 document.getElementById("genreButton").onclick = function() {
     if (document.getElementById("genreDropDown").style.display === "none"){
-        document.getElementById("genreDropDown").style.display = "block";
+        if (window.innerWidth > 960){
+            document.getElementById("genreDropDown").style.display = "block";
+        } else {
+            document.getElementById("genreDropDown").style.display = "flex";
+        }
         document.getElementById("genreButtonDown").style.display = "none";
         document.getElementById("genreButtonUp").style.display = "inline";
         } else {
