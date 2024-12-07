@@ -85,7 +85,9 @@
             <section id="recentPostsDisplay">
                 <% if (data.length !== 0){ %>
                     <% for (let i =0; i < data.length; i++){ %>
-                        <div class="recentPost">
+                        
+                        <div class="recentPost" onclick="this.firstElementChild.submit()">
+                            <form class = "viewPost" action="/viewPost/<%=data[i].id%>" method="post" >
                             <div class="showInfo">
                                 <h3><%= data[i].show_title %></h3>
                                 <p>
@@ -108,6 +110,7 @@
                                     By: <%= data[i].username %>
                                 </a>
                             </div>
+                            </form>
                         </div>
                     <% } %>
                 <% } else { %>

@@ -1,0 +1,165 @@
+/* Style Guide
+COLORS:
+    BACKGROUNDS:
+        background: #121212 (white)
+        nav: 14% overlay
+        menu: 9%
+        posts: 8% overlay
+        form: 9% overlay
+    primary: #5B9FAE (black)
+    primary variant: #195E73 (white)
+    secondary: #FFBF00 (black)
+    error: #FF6161 (black)
+    LIGHT TEXT:
+        high-emphasis: 90% opacity
+        medium-emphasis: 60%
+        disabled: 40%
+ */
+
+/* MAIN STYLES */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #121212 ;
+    box-sizing:border-box;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* NAVIGATION STYLES */
+nav {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+#menuButton {
+    padding: 1rem 1rem;
+    font-size: 1.5em;
+    color: #FFBF00;
+}
+
+#menuButton:hover {
+    color: #5B9FAE;
+    background-color: #2c2c2c;
+}
+
+nav h1 {
+    display: inline;
+    margin: auto 1em;
+}
+
+section {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+}
+
+#menu {
+    display: none;
+    background-color: #2c2c2c;
+    padding: 1em 1em 2em 1em;
+    position: absolute;
+    font-size: 1.25em;
+    box-shadow: #12121280 5px 5px 10px;
+}
+
+main {
+    grid-column: 1/9;
+}
+
+a {
+    display: block;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    padding: 0.5em 0;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+/* POST STYLES */
+
+#post {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    width: 85%;
+    margin: 1em auto;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+}
+
+main {
+    grid-column: 3/9;
+    background-color: rgba(255, 255, 255, 0.03);
+    width: 100%;
+    padding: 1em 1.5em;
+}
+
+#post aside {
+    grid-column: 1/3;
+    margin: 1em;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+}
+
+/* #titleBox {
+    background-color: rgba(255, 255, 255, 0.05);
+    width: 120%;
+    line-height: 2.5em;
+} */
+
+div h1 {
+    margin: .25em 0;
+}
+
+h3 {
+    margin-top: .75em;
+    margin-bottom: .25em;
+}
+
+#commentField {
+    margin-top: .5em ;
+}
+
+hr {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+aside p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: .75em;
+    margin-bottom: 1em;
+}
+
+main > p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: .75em;
+}
+
+#nameDate {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+#nameDate p{
+    color: rgba(255, 255, 255, 0.6);
+    font-size: .75em;
+    display: inline;
+}
+
+#ratingStars {
+    color: #FFBF00;
+}
+
+#numberStars {
+    font-size: .75em;
+    color:hsla(45, 100%, 50%, 0.6);
+}
+
+.genreLabel {
+    margin-bottom: .5em;
+    margin-top: .5em;
+}

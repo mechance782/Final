@@ -15,7 +15,8 @@ const PORT = 300;
 
 app.use(express.urlencoded({extended: false}));
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use(express.static(__dirname + "/public"));
 
 app.set('view engine', 'ejs');
 
@@ -229,6 +230,14 @@ app.post('/search', async (req, res) => {
     let data = await searchFor(search);
     res.render('search', {data: data, search: search});
 })
+
+app.post('/viewPost/:id', async (req, res) => {
+    const { id } = req.params;
+    const conn = await connect();
+    const post = await conn.query(`SELECT * FROM posts WHERE id = ${id}`);
+    console.log(post);
+    res.render('viewPost', {data: post});
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`);
