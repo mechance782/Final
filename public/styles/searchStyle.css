@@ -86,15 +86,43 @@ a:hover {
     box-shadow: inset 0 5px 10px #12121280;
 }
 
+label {
+    display: block;
+    margin-bottom: .5em;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+label:hover, label:focus, label:focus-visible, label:focus-within {
+    color:rgba(255, 255, 255, 0.9);
+}
+
+select:hover, select:focus, 
+select:focus-visible, select:focus-within,
+input:hover, input:focus,
+input:focus-visible, input:focus-within {
+    border: #FFBF00 solid 1px;
+}
+
 input {
     background-color: transparent;
     border:#5B9FAE solid 1px;
     border-radius: 5px;
     color: rgba(255, 255, 255, 0.9);
+    line-height: 2em;
+    font-size: .75em;
+    padding-left: 1em;
+    margin-left: 1em;
 }
 
 select {
     background-color: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: .75em;
+    line-height: 2em;
+    padding: 0 1em;
+    appearance: none;
+    border: #5B9FAE solid 1px;
+    border-radius: 5px;
 }
 
 h2 {
@@ -111,6 +139,38 @@ h2 {
     color: rgba(255, 255, 255, 0.6);
 }
 
+button {
+    background-color: transparent;
+    border: none;
+    color: #FFBF00;
+    font-size: 1em;
+    margin-top: .5em;
+}
+
+button:hover {
+    text-decoration: underline;
+}
+
+#genreDropDown {
+    font-size: .9em;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 1em 0 1em 9em;
+    display: none;
+}
+
+#genreButtonUp {
+    display: none;
+}
+
+#genreButton span {
+    color: #5B9FAE;
+    font-size: 1em;
+    line-height: 1.75em;
+}
+
+#genreButton span:hover {
+    color: #FFBF00;
+}
 
 /* POST STYLES */
 
