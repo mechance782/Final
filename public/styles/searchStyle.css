@@ -99,8 +99,8 @@ label:hover, label:focus, label:focus-visible, label:focus-within {
 
 select:hover, select:focus, 
 select:focus-visible, select:focus-within,
-input:hover, input:focus,
-input:focus-visible, input:focus-within {
+input[type="text"]:hover, input[type="text"]:focus,
+input[type="text"]:focus-visible, input[type="text"]:focus-within {
     border: #FFBF00 solid 1px;
 }
 
@@ -127,7 +127,7 @@ select {
 }
 
 h2 {
-    margin-left: 1.5em;
+    margin-left: 1em;
 }
 
 #noReviews *{
