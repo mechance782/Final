@@ -37,11 +37,11 @@
                         <% if (data[0].genres.includes(",")){ %>
                             <% const genres = data[0].genres.split(","); %>
                             <% for (let i = 0; i < genres.length; i++) { %>
-                                <%= genres[i] %>
+                                <a href="/search/genre/<%= genres[i] %>"> <%= genres[i] %> </a>
                                 <br>
                             <% } %>
                         <% } else { %>
-                            <%= data[0].genres %>
+                            <a href="/search/genre/<%= data[0].genres %>"><%= data[0].genres %></a>
                         <% } %>
                         </p>
                     </div>
@@ -56,12 +56,10 @@
                 </aside>
                 <main>
                     <div id="nameDate">
-                        <p id="usernameDisplay">Review by 
-                            <% if (data[0].username === ""){ %>
-                                anonymous
-                            <% } else { %>
+                        <p id="usernameDisplay" href="/search/username/<%= data[0].username %>">Review by 
+                            <a href="/search/username/<%= data[0].username %>">
                                 <%= data[0].username %>
-                            <% } %>
+                            </a>
                         </p>
                         <p><%=data[0].timestamp.toLocaleDateString() %></p>
                     </div>
