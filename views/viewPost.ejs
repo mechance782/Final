@@ -80,5 +80,69 @@
                     <p id="commentField"><%= data[0].review_comment %></p>
                 </main>
         </section>
+        <h2>Related Posts</h2>
+        <section id="recentPostsDisplay">
+            <% if (related.length !== 0){ %>
+                <% for (let i =0; i < related.length; i++){ %>
+                    <% if (i > 3){ %>
+                        <div class="recentPost extraRelatedPost" onclick="this.firstElementChild.submit()">
+                            <form action="/viewPost/<%=related[i].id%>" method="get" >
+                            <div class="showInfo">
+                                <h3><%= related[i].show_title %></h3>
+                                <p>
+                                    <% if (related[i].audience_rating === "unrated"){ %>
+                                        Unrated
+                                    <% } else { %>
+                                        TV-<%= related[i].audience_rating %>
+                                    <% } %>
+                                </p>
+                            </div>
+                            <hr>
+                            <% let stars = Number(related[i].star_rating); %>
+                            <% for (let i =0; i < stars ; i++){ %>
+                                <span class="fa-solid fa-star"></span>
+                            <% } %>
+                            <div class="reviewInfo">
+                                <p class="reviewTitle"><%= related[i].review_title %></p>
+                                <a class="usernameDisplay" href="/search/username/<%= related[i].username %>">
+                                    By: <%= related[i].username %>
+                                </a>
+                            </div>
+                            </form>
+                        </div>
+                    <% } else { %>
+                        <div class="recentPost" onclick="this.firstElementChild.submit()">
+                            <form action="/viewPost/<%=related[i].id%>" method="get" >
+                            <div class="showInfo">
+                                <h3><%= related[i].show_title %></h3>
+                                <p>
+                                    <% if (related[i].audience_rating === "unrated"){ %>
+                                        Unrated
+                                    <% } else { %>
+                                        TV-<%= related[i].audience_rating %>
+                                    <% } %>
+                                </p>
+                            </div>
+                            <hr>
+                            <% let stars = Number(related[i].star_rating); %>
+                            <% for (let i =0; i < stars ; i++){ %>
+                                <span class="fa-solid fa-star"></span>
+                            <% } %>
+                            <div class="reviewInfo">
+                                <p class="reviewTitle"><%= related[i].review_title %></p>
+                                <a class="usernameDisplay" href="/search/username/<%= related[i].username %>">
+                                    By: <%= related[i].username %>
+                                </a>
+                            </div>
+                            </form>
+                        </div>
+                    <% } %>
+                <% } %>
+            <% } %>
+        </section>
+        <div id="pageSuggestion">
+            <a href="/form"><span class="fa-solid fa-pen"></span></a>
+            <a href="/search"><span class="fa-solid fa-magnifying-glass"></span></a>
+        </div>
 </body>
 </html>
