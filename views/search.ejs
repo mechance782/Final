@@ -37,62 +37,65 @@
                     Search by author:<input id="author" name="author" type="text">
                 </label>
                 
-                <label id="genreButton" for="searchGenre">
-                    Search by genre:
-                    <span id="genreButtonDown" class="fa-solid fa-square-caret-down"></span>
-                    <span id="genreButtonUp" class="fa-solid fa-square-caret-up"></span>
-                    
-                </label>
-                <div id="genreDropDown">
-                        <label for="comedyGenre">
-                            <input class="genre" type="checkbox" id="comedyGenre" name="genres" value="Comedy">
-                            Comedy
-                        </label>
-    
-                        <label for="docuGenre">
-                            <input  class="genre" type="checkbox" id="docuGenre" name="genres" value="Documentary">
-                            Documentary
-                        </label>
-    
-                        <label for="realityGenre">
-                            <input class="genre"  type="checkbox" id="realityGenre" name="genres" value="Reality-TV">
-                            Reality TV
-                        </label>
-    
-                        <label for="dramaGenre">
-                            <input class="genre"  type="checkbox" id="dramaGenre" name="genres" value="Drama">
-                            Drama
-                        </label>
-    
-                        <label for="actionGenre">
-                            <input  class="genre" type="checkbox" id="actionGenre" name="genres" value="Action">
-                            Action
-                        </label>
-    
-                        <label for="horrorGenre">
-                            <input class="genre"  type="checkbox" id="horrorGenre" name="genres" value="Horror">
-                            Horror
-                        </label>
-    
-                        <label for="crimeGenre">
-                            <input class="genre"  type="checkbox" id="crimeGenre" name="genres" value="Crime">
-                            Crime
-                        </label>
-    
-                        <label for="animatedGenre">
-                            <input  class="genre" type="checkbox" id="animatedGenre" name="genres" value="Animated">
-                            Animated
-                        </label>
-    
-                        <label for="romGenre">
-                            <input  class="genre" type="checkbox" id="romGenre" name="genres" value="Romance">
-                            Romance
-                        </label>
-    
-                        <label for="sportGenre">
-                            <input class="genre"  type="checkbox" id="sportGenre" name="genres" value="Sport">
-                            Sport
-                        </label>
+                <div id="genreSearch">
+                    <label id="genreButton" for="searchGenre">
+                        Search by genre:
+                        <span id="genreButtonDown" class="fa-solid fa-square-caret-down"></span>
+                        <span id="genreButtonUp" class="fa-solid fa-square-caret-up"></span>
+                        
+                    </label>
+                    <div id="genreDropDown">
+                                <input class="genre" type="checkbox" id="noSelection" name="genres" value="" checked>
+                            <label for="comedyGenre">
+                                <input class="genre" type="checkbox" id="comedyGenre" name="genres" value="Comedy">
+                                Comedy
+                            </label>
+        
+                            <label for="docuGenre">
+                                <input  class="genre" type="checkbox" id="docuGenre" name="genres" value="Documentary">
+                                Documentary
+                            </label>
+        
+                            <label for="realityGenre">
+                                <input class="genre"  type="checkbox" id="realityGenre" name="genres" value="Reality-TV">
+                                Reality TV
+                            </label>
+        
+                            <label for="dramaGenre">
+                                <input class="genre"  type="checkbox" id="dramaGenre" name="genres" value="Drama">
+                                Drama
+                            </label>
+        
+                            <label for="actionGenre">
+                                <input  class="genre" type="checkbox" id="actionGenre" name="genres" value="Action">
+                                Action
+                            </label>
+        
+                            <label for="horrorGenre">
+                                <input class="genre"  type="checkbox" id="horrorGenre" name="genres" value="Horror">
+                                Horror
+                            </label>
+        
+                            <label for="crimeGenre">
+                                <input class="genre"  type="checkbox" id="crimeGenre" name="genres" value="Crime">
+                                Crime
+                            </label>
+        
+                            <label for="animatedGenre">
+                                <input  class="genre" type="checkbox" id="animatedGenre" name="genres" value="Animated">
+                                Animated
+                            </label>
+        
+                            <label for="romGenre">
+                                <input  class="genre" type="checkbox" id="romGenre" name="genres" value="Romance">
+                                Romance
+                            </label>
+        
+                            <label for="sportGenre">
+                                <input class="genre"  type="checkbox" id="sportGenre" name="genres" value="Sport">
+                                Sport
+                            </label>
+                    </div>
                 </div>
 
                 <label for="searchAudienceRating">
@@ -169,7 +172,9 @@
                     <div id="noReviews">
                         <p>No reviews found 
                         <% if (search.length !== 0) { %>
-                            for: "<%=search.keyword %>, <%=search.author %>"
+                            <% if ((search.keyword !== "") || (search.author !== "")) { %>
+                                for: "<%=search.keyword %> <%=search.author %>"
+                            <% } %>
                         <% } %>
                         </p>
                     </div>
