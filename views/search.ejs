@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/searchStyle.css" type="text/css">
+    <link rel="stylesheet" href="/styles/searchStyle.css" type="text/css">
     <script src="https://kit.fontawesome.com/c6d4bf1353.js" crossorigin="anonymous"></script>
-    <script src="scripts/searchScript.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="images/media.png" >
+    <script src="/scripts/searchScript.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="/images/media.png" >
     <title>TV Reviews</title>
 </head>
 <body>
@@ -87,7 +87,7 @@
                     <% for (let i =0; i < data.length; i++){ %>
                         
                         <div class="recentPost" onclick="this.firstElementChild.submit()">
-                            <form class = "viewPost" action="/viewPost/<%=data[i].id%>" method="post" >
+                            <form action="/viewPost/<%=data[i].id%>" method="get" >
                             <div class="showInfo">
                                 <h3><%= data[i].show_title %></h3>
                                 <p>
@@ -106,7 +106,7 @@
                             <div class="reviewInfo">
                                 <p class="reviewTitle"><%= data[i].review_title %></p>
                                 <p class="comment"><%= data[i].review_comment %></p>
-                                <a class="usernameDisplay" href="/search">
+                                <a class="usernameDisplay" href="/search/username/<%= data[i].username %>">
                                     By: <%= data[i].username %>
                                 </a>
                             </div>
