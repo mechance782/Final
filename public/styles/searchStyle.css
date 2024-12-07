@@ -62,6 +62,7 @@ aside {
     position: absolute;
     font-size: 1.25em;
     box-shadow: #12121280 5px 5px 10px;
+    z-index: 2;
 }
 
 main {
@@ -103,7 +104,7 @@ input:focus-visible, input:focus-within {
     border: #FFBF00 solid 1px;
 }
 
-input {
+input[type="text"] {
     background-color: transparent;
     border:#5B9FAE solid 1px;
     border-radius: 5px;
@@ -154,8 +155,10 @@ button:hover {
 #genreDropDown {
     font-size: .9em;
     color: rgba(255, 255, 255, 0.6);
-    margin: 1em 0 1em 9em;
     display: none;
+    flex-flow: column wrap;
+    height: 9.5em;
+    align-content: space-evenly;
 }
 
 #genreButtonUp {
@@ -170,6 +173,10 @@ button:hover {
 
 #genreButton span:hover {
     color: #FFBF00;
+}
+
+#noSelection {
+    display: none;
 }
 
 /* POST STYLES */
@@ -299,6 +306,7 @@ h2 {
     .comment {
         font-size: .8em;
     }
+
 }
 
 /* DESKTOP STYLES */
@@ -309,5 +317,51 @@ h2 {
 
     .showInfo p {
         font-size: .9em;
+    }
+
+    label {
+        display: inline;
+        width: 30%;
+        margin: 1em 0;
+        min-width: 350px;
+    }
+
+    #genreDropDown label {
+        display: inline-block;
+        margin: .2em;
+        font-size: .85em;
+        min-width: min-content;
+    }
+
+    #genreSearch {
+        width: 30%;
+        min-width: 350px;
+        justify-content: center;
+        align-content: center;
+    }
+
+    #genreDropDown {
+        padding: 1em;
+        margin: 0;
+        width: 35%;
+        min-width: 380px;
+        position: absolute;
+        background-color: #2c2c2c;
+        box-shadow: #12121280 0 0 10px 1px;
+        z-index: 1;
+    }
+
+    #searchForm {
+        display: flex;
+        flex-flow: row-reverse wrap;
+        position: relative;
+        justify-content: space-around;
+        padding-bottom: 2em;
+    }
+
+    button {
+        position: absolute;
+        bottom: 1.25em;
+        right: 2em;
     }
 }
