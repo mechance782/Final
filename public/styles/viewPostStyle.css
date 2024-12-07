@@ -68,16 +68,17 @@ main {
     grid-column: 1/9;
 }
 
-a {
+#menu a {
     display: block;
     color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
     padding: 0.5em 0;
 }
 
-a:hover {
+#menu a:hover {
     text-decoration: underline;
 }
+
 /* POST STYLES */
 
 #post {
@@ -93,7 +94,7 @@ main {
     grid-column: 3/9;
     background-color: rgba(255, 255, 255, 0.03);
     width: 100%;
-    padding: 1em 1.5em;
+    padding: .5em 1.5em 1em;
 }
 
 #post aside {
@@ -102,6 +103,15 @@ main {
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-evenly;
+}
+
+a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+}
+
+a:hover {
+    color:#5B9FAE;
 }
 
 /* #titleBox {
@@ -125,6 +135,7 @@ h3 {
 
 hr {
     color: rgba(255, 255, 255, 0.6);
+    margin-top: 0;
 }
 
 aside p {
