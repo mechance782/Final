@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/searchStyle.css" type="text/css">
+    <script src="https://kit.fontawesome.com/c6d4bf1353.js" crossorigin="anonymous"></script>
+    <script src="scripts/searchScript.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="images/media.png" >
+    <title>TV Reviews</title>
+</head>
+<body>
+    <nav>
+        <span id="menuButton" class="fa-solid fa-bars icon"></span>
+        <h1>TV Reviews</h1>
+    </nav>
+    <aside id="menu">
+            <a href="/">
+            <span class="fa-solid fa-house icon"></span>
+            Home</a>
+
+            <a href="/form">
+            <span class="fa-solid fa-pen icon"></span>
+            Post a Review</a>
+
+            <a href="/search">
+            <span class="fa-solid fa-magnifying-glass icon"></span> 
+            Search</a>
+    </aside>
+    <main>
+            <form id="searchForm" method="post" action="/search" >
+                <label for="keyword">
+                    Search by keyword:<input id="keyword" name="keyword" type="text">
+                </label>
+
+                <label for="author">
+                    Search by author:<input id="author" name="author" type="text">
+                </label>
+                
+                <label for="searchGenre">
+                    Search by genre:
+                    <span class="fa-solid fa-square-caret-down"></span>
+                </label>
+
+                <label for="searchAudienceRating">
+                    Search by audience rating: 
+                    <select name="searchAudienceRating" id="searchAudienceRating">
+                        <option value="" selected></option>
+                        <option value="Y">TV-Y</option>
+                        <option value="PG">TV-PG</option>
+                        <option value="14">TV-14</option>
+                        <option value="MA">TV-MA</option>
+                        <option value="unrated">Unrated</option>
+                    </select>
+                </label>
+                
+                <label for="searchStar">
+                    Search by star rating:
+                    <select name="searchStar" id="searchStar">
+                        <option value="" selected></option>
+                        <option value="ASC">Lowest-rated first</option>
+                        <option value="DESC">Highest-rated first</option>
+                        <option value="5">5 star reviews</option>
+                        <option value="4">4 star reviews</option>
+                        <option value="3">3 star reviews</option>
+                        <option value="2">2 star reviews</option>
+                        <option value="1">1 star reviews</option>
+                    </select>
+                </label>
+
+                <label for="searchTime">
+                    Search by time: 
+                    <select name="searchTime" id="searchTime">
+                        <option value="DESC" selected>Newest first</option>
+                        <option value="ASC">Oldest first</option>
+                        <option value="pastDay">From the past 24 hours</option>
+                        <option value="pastMonth">From the past month</option>
+                        <option value="pastYear">From the past year</option>
+                    </select>
+                </label>
+
+                <button type="submit">search</button>
+            </form>
+            <h2>results: </h2>
+            <section id="recentPostsDisplay">
+                <% if (data.length !== 0){ %>
+                    <% for (let i =0; i < data.length; i++){ %>
+                        <div class="recentPost">
+                            <div class="showInfo">
+                                <h3><%= data[i].show_title %></h3>
+                                <p>
+                                    <% if (data[i].audience_rating === "unrated"){ %>
+                                        Unrated
+                                    <% } else { %>
+                                        TV-<%= data[i].audience_rating %>
+                                    <% } %>
+                                </p>
+                            </div>
+                            <hr>
+                            <% let stars = Number(data[i].star_rating); %>
+                            <% for (let i =0; i < stars ; i++){ %>
+                                <span class="fa-solid fa-star"></span>
+                            <% } %>
+                            <div class="reviewInfo">
+                                <p class="reviewTitle"><%= data[i].review_title %></p>
+                                <p class="comment"><%= data[i].review_comment %></p>
+                                <a class="usernameDisplay" href="/search">
+                                    By: <%= data[i].username %>
+                                </a>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } else { %>
+                    <div id="noReviews">
+                        <p>No reviews found 
+                        <% if (search.length !== 0) { %>
+                            <% if (search.keyword !== ""){ %>
+                                for keyword: "<%=search.keyword %>"
+                            <% } else if (search.author !== ""){ %>
+                                for author: "<%=search.author %>"
+                            <% } %>
+                        <% } %>
+                        </p>
+                    </div>
+                <% } %>
+            </section>
+    </main>
+</body>
+</html>

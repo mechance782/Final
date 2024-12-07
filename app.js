@@ -51,6 +51,120 @@ function escapeQuotation(input){
     return output;
 }
 
+async function searchFor(search){
+    let data;
+    const conn = await connect();
+    const keyword = escapeQuotation(search.keyword);
+    const rating = search.searchAudienceRating;
+    const star = search.searchStar;
+    const searchTime = search.searchTime;
+    let and = false;
+    let nestedOrder = false;
+    let timeOrderBy = `, timestamp DESC`;
+    let searchQuery = `SELECT * FROM posts `;
+
+    if (keyword !== ""){
+        searchQuery+= `WHERE ((show_title LIKE '%${keyword}%') 
+        OR (review_title LIKE '%${keyword}%') OR (review_comment LIKE '%${keyword}%')) `;
+        and = true;
+    }
+
+    if (search.author !== ""){
+        if (and){
+            searchQuery+= `AND (username LIKE '%${search.author}%') `;
+        } else {
+            searchQuery+= `WHERE (username LIKE '%${search.author}%') `;
+            and = true;
+        }
+    }
+    
+    if (rating !== ''){
+        if (and){
+            searchQuery+= `AND (audience_rating = '${rating}') `;
+        } else {
+            searchQuery+= `WHERE (audience_rating = '${rating}') `;
+            and = true;
+        }
+    }
+
+    if (searchTime !== 'DESC'){
+        if (searchTime !== 'ASC'){
+            const currDate = new Date();
+            let pastDate = new Date();
+            if (searchTime === 'pastMonth'){
+                pastDate.setDate(currDate.getDate() - 30);
+                pastDate.setHours(pastDate.getHours() - 8);
+                pastDate = pastDate.toISOString();
+                pastDate = pastDate.substring(0, 19);
+                if (and){
+                    searchQuery+= `AND (timestamp > '${pastDate}') `;
+                } else {
+                    searchQuery+= `WHERE (timestamp > '${pastDate}') `;
+                    and = true;
+                }
+            } else if (searchTime === 'pastDay'){
+                pastDate.setDate(currDate.getDate() - 1);
+                pastDate.setHours(pastDate.getHours() - 8);
+                pastDate = pastDate.toISOString();
+                pastDate = pastDate.substring(0, 19);
+                if (and){
+                    searchQuery+= `AND (timestamp > '${pastDate}') `;
+                } else {
+                    searchQuery+= `WHERE (timestamp > '${pastDate}') `;
+                    and = true;
+                }
+            } else if (searchTime === 'pastYear'){
+                pastDate.setFullYear(currDate.getFullYear() - 1);
+                pastDate.setHours(pastDate.getHours() - 8);
+                pastDate = pastDate.toISOString();
+                pastDate = pastDate.substring(0, 19);
+                if (and){
+                    searchQuery+= `AND (timestamp > '${pastDate}') `;
+                } else {
+                    searchQuery+= `WHERE (timestamp > '${pastDate}') `;
+                    and = true;
+                }
+            }
+        } else {
+            timeOrderBy = `, timestamp ASC`;
+        }
+    }
+
+    if (star !== ''){
+        if ((star !== 'ASC') && (star !== 'DESC')){
+            const starNumber = Number(star);
+            if (and){
+                searchQuery+= `AND (star_rating = ${starNumber}) `;
+            } else {
+                searchQuery+= `WHERE (star_rating = ${starNumber}) `;
+                and = true;
+            }
+        } else if (star === 'ASC'){
+            nestedOrder = true;
+            orderBy= `ORDER BY star_rating ASC`;
+        } else {
+            nestedOrder = true;
+            orderBy= `ORDER BY star_rating DESC`;
+        }
+    }
+
+    if (nestedOrder) {
+        orderBy+= timeOrderBy;
+        searchQuery+= orderBy;
+    } else {
+        searchQuery += `ORDER BY `;
+        searchQuery+= timeOrderBy.substring(1, timeOrderBy.length);
+    }
+
+    searchQuery+= ` LIMIT 24`;
+    try {
+        data = await conn.query(searchQuery);
+        return data;
+    } catch (err) {
+        console.log('Error with sql query: ' + err);
+    }
+}
+
 // ROUTES 
 app.get('/', async (req, res) => {
     const conn = await connect();
@@ -96,6 +210,25 @@ app.post('/success', async (req, res) => {
 
     res.render('confirmation', {data: data, timestamp: timestamp});
 });
+
+// Search page without any searches
+app.get('/search', (req, res) => {
+    res.render('search', {data: [], search: []});
+});
+
+// Search page after sending search query
+//  keyword
+//  author
+//  searchGenre
+//  searchAudienceRating
+//  searchStar
+//  searchTime
+app.post('/search', async (req, res) => {
+    let search =  req.body;
+    console.log(search);
+    let data = await searchFor(search);
+    res.render('search', {data: data, search: search});
+})
 
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`);
