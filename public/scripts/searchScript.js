@@ -10,6 +10,16 @@ document.getElementById("menuButton").onclick = function() {
     }
 };
 
+document.onclick = function (event) {
+    if (document.getElementById("menu").style.display === "block"){
+        if ((event.target.id != "menu") && (event.target.id != "menuButton")){
+            document.getElementById("menu").style.display = "none";
+            document.getElementById("menuButton").style.color = "";
+            document.getElementById("menuButton").style.backgroundColor = "";
+        }
+    }
+}
+
 document.getElementById("genreButton").onclick = function() {
     if (document.getElementById("genreDropDown").style.display === "none"){
         if (window.innerWidth > 960){
