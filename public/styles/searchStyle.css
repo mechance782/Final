@@ -114,10 +114,6 @@ h2 {
 
 /* POST STYLES */
 
-#viewPost {
-
-}
-
 #recentPostsDisplay {
     display: flex;
     flex-flow: row wrap;
