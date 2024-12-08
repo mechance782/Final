@@ -65,9 +65,28 @@ async function searchFor(search){
     let searchQuery = `SELECT * FROM posts `;
 
     if (keyword !== ""){
-        searchQuery+= `WHERE ((show_title LIKE '%${keyword}%') 
-        OR (review_title LIKE '%${keyword}%') OR (review_comment LIKE '%${keyword}%')) `;
-        and = true;
+        let keywords = keyword.split(" ");
+
+        if (and){
+            searchQuery+= `AND `;
+        } else {
+            searchQuery+= `WHERE `
+            and = true;
+        }
+        let OR = false;
+        
+        for (let i =0; i < keywords.length ; i++){
+            
+            if (OR) {
+                searchQuery+= `OR ((show_title LIKE '%${keywords[i]}%') 
+                OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%')) `;
+            } else {
+                searchQuery+= `(((show_title LIKE '%${keywords[i]}%') 
+                OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%')) `;
+                OR = true;
+            }
+        }
+        searchQuery += `) `;
     }
 
     if (search.genres !== ""){
