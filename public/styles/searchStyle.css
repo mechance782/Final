@@ -126,6 +126,15 @@ select {
     border-radius: 5px;
 }
 
+.err {
+    display: none;
+    color: #FF6161;
+    font-weight: normal;
+    font-size: .9em;
+    margin-top: .25em;
+    margin-bottom: .5;
+}
+
 h2 {
     margin-left: 1em;
 }
