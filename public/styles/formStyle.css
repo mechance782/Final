@@ -154,6 +154,7 @@ input[type=text]{
     height: 2em;
     color: rgba(255, 255, 255, 0.9);
     padding: 0 1em;
+    width: 90%;
 }
 
 textarea {
@@ -191,13 +192,43 @@ textarea {
     cursor: default;
 }
 
+label:hover, label:focus, label:focus-visible, label:focus-within {
+    color:rgba(255, 255, 255, 0.9);
+}
 
+select:hover, select:focus, 
+select:focus-visible, select:focus-within,
+input[type="text"]:hover, input[type="text"]:focus,
+input[type="text"]:focus-visible, input[type="text"]:focus-within, 
+textarea:focus, textarea:hover, textarea:focus-visible, textarea:focus-within {
+    border: #FFBF00 solid 2px;
+}
+
+/* Phones styles */
 @media screen and (max-width: 480px) {
     aside {
         width: 50%;
     }
 
-    input[type=text]{
-        width: 90%;
+}
+
+/* Tablet styles */
+@media screen and (min-width: 481px) {
+    #genreList {
+        max-width: 800px;
     }
+
+}
+
+/* Desktop styles */
+@media screen and (min-width: 960px) {
+    button {
+        width: 100%;
+        font-size: 1.5em;
+    }
+
+    input[type = text], textarea{
+        width: 100%;
+    }
+
 }
