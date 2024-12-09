@@ -143,7 +143,65 @@
 
                 <button type="submit"><span class="fa-solid fa-magnifying-glass"></span> Search</button>
             </form>
-            <h2>results: </h2>
+            <% if (search.length !== 0) { %>
+
+                <% let searchFor = ``; %>
+                <% if (search.keyword !== ''){ %>
+                    <% searchFor+= `"${search.keyword}", `; %>
+                <% } %>
+
+                <% if (search.author !== ''){ %>
+                    <% searchFor+= `Author: "${search.author}", `; %>
+                <% } %>
+
+                <% if (search.genres !== ''){ %>
+                    <% searchFor+=`Genres: (`; %>
+                    <% for (let i =1; i < search.genres.length; i++){ %>
+                        <% if (i === search.genres.length - 1){ %>
+                            <% searchFor+= `${search.genres[i]}`; %>
+                        <% } else { %>
+                            <% searchFor+= `${search.genres[i]}, `; %>
+                        <% } %>
+                    <% } %>
+                    <% searchFor+=`), `; %>
+                <% } %>
+
+                <% if (search.searchAudienceRating !== ''){ %>
+                    <% if (search.searchAudienceRating === 'unrated'){ %>
+                        <% searchFor+=`Unrated, `; %>
+                    <% } else { %>
+                        <% searchFor+= `TV-${search.searchAudienceRating}, `; %>
+                    <% } %>
+                <% } %>
+
+                <% if (search.searchStar !== ''){ %>
+                    <% if (search.searchStar === 'ASC'){ %>
+                        <% searchFor+=`Star-Rating: Lowest First, `; %>
+                    <% } else if (search.searchStar === 'DESC'){ %>
+                        <% searchFor+=`Star-Rating: Highest First, `; %>
+                    <% } else { %>
+                        <% searchFor+=`${search.searchStar} stars, `; %>
+                    <% } %>
+                <% } %>
+
+                <% if (search.searchTime === 'DESC'){ %>
+                    <% searchFor+=`Time: Newest First, `; %>
+                <% } else if (search.searchTime === 'ASC'){ %>
+                    <% searchFor+=`Time: Oldest First, `; %>
+                <% } else if (search.searchTime === 'pastDay'){ %>
+                    <% searchFor+=`Time: Past 24 hours, `; %>
+                <% } else if (search.searchTime === 'pastMonth'){ %>
+                    <% searchFor+=`Time: Past 30 days, `; %>
+                <% } else { %>
+                    <% searchFor+=`Time: Past year, `; %>
+                <% } %>
+
+                <% searchFor = searchFor.substring(0, searchFor.length -2); %>
+                
+                <h2>Results for( <span id="searchFor"><%= searchFor %></span> ): </h2>
+            <% } else { %>
+                <h2>Results: </h2>
+            <% } %>
             <section id="recentPostsDisplay">
                 <% if (data.length !== 0){ %>
                     <% for (let i =0; i < data.length; i++){ %>
@@ -176,12 +234,7 @@
                     <% } %>
                 <% } else { %>
                     <div id="noReviews">
-                        <p>No reviews found 
-                        <% if (search.length !== 0) { %>
-                            <% if ((search.keyword !== "") || (search.author !== "")) { %>
-                                for: "<%=search.keyword %> <%=search.author %>"
-                            <% } %>
-                        <% } %>
+                        <p>No reviews found
                         </p>
                     </div>
                 <% } %>
