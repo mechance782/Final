@@ -135,9 +135,6 @@ select {
     margin-bottom: .5;
 }
 
-h2 {
-    margin-left: 1em;
-}
 
 #noReviews *{
     display: block;
@@ -265,7 +262,7 @@ hr {
 h2 {
     color: rgba(255, 255, 255, 0.6);
     font-size: 1.2em;
-    margin-top: .5em;
+    margin: .5em 1em;
 }
 
 #pageSuggestion {
@@ -285,6 +282,11 @@ h2 {
 
 .recentPost span {
     color:#FFBF00;
+    font-size: .9em;
+}
+
+#searchFor {
+    font-weight: normal;
     font-size: .9em;
 }
 
@@ -338,13 +340,14 @@ h2 {
     #genreDropDown label {
         display: inline-block;
         margin: .2em;
-        font-size: .85em;
-        min-width: min-content;
+        font-size: 1em;
+        width: auto;
+        min-width: 120px;
     }
 
     #genreSearch {
         width: 30%;
-        min-width: 350px;
+        min-width: 400px;
         justify-content: center;
         align-content: center;
     }
@@ -352,13 +355,14 @@ h2 {
     #searchForm > div {
         width: 30%;
         min-width: 350px;
+        margin: 1em 0;
     }
 
     #genreDropDown {
+        height: 10em;
         padding: 1em;
         margin: 0;
-        width: 35%;
-        min-width: 380px;
+        width: 420px;
         position: absolute;
         background-color: #2c2c2c;
         box-shadow: #12121280 0 0 10px 1px;
