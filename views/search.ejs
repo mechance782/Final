@@ -29,13 +29,19 @@
     </aside>
     <main>
             <form id="searchForm" method="post" action="/search" >
+                <div>
+                <p class="err" id="keywordMaxErr">*100 character limit*</p>
                 <label for="keyword">
                     Search by keyword:<input id="keyword" name="keyword" type="text">
                 </label>
+                </div>
 
+                <div>
+                <p class="err" id="authorMaxErr">*20 character limit*</p>
                 <label for="author">
                     Search by author:<input id="author" name="author" type="text">
                 </label>
+                </div>
                 
                 <div id="genreSearch">
                     <label id="genreButton" for="searchGenre">

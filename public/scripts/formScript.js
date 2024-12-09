@@ -77,8 +77,7 @@ document.getElementById("reviewForm").onsubmit = function() {
     if (showTitle === ""){
         isValid = false;
         document.getElementById("showErr").style.display = "block";
-    }
-    if (showTitle.length >= 100){
+    } else if (showTitle.length >= 100){
         isValid = false;
         document.getElementById("showMaxErr").style.display = "block";
     }

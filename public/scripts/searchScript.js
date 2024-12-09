@@ -35,3 +35,28 @@ document.getElementById("genreButton").onclick = function() {
         document.getElementById("genreButtonUp").style.display = "none";
         }
 };
+
+document.getElementById("searchForm").onsubmit = function() {
+    clearErrors();
+    let isValid = true;
+
+    let keyword = document.getElementById("keyword").value;
+    if (keyword.length > 100){
+        document.getElementById("keywordMaxErr").style.display = "block";
+        isValid = false;
+    }
+
+    let author = document.getElementById("author").value;
+    if (author.length > 20 ){
+        document.getElementById("authorMaxErr").style.display = "block";
+        isValid = false;
+    }
+    return isValid;
+}
+
+function clearErrors(){
+    let errors = document.getElementsByClassName("err");
+    for (let i=0; i < errors.length; i++){
+        errors[i].style.display = "none";
+    }
+};

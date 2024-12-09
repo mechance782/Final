@@ -65,9 +65,28 @@ async function searchFor(search){
     let searchQuery = `SELECT * FROM posts `;
 
     if (keyword !== ""){
-        searchQuery+= `WHERE ((show_title LIKE '%${keyword}%') 
-        OR (review_title LIKE '%${keyword}%') OR (review_comment LIKE '%${keyword}%')) `;
-        and = true;
+        let keywords = keyword.split(" ");
+
+        if (and){
+            searchQuery+= `AND `;
+        } else {
+            searchQuery+= `WHERE `
+            and = true;
+        }
+        let OR = false;
+        
+        for (let i =0; i < keywords.length ; i++){
+            
+            if (OR) {
+                searchQuery+= `OR ((show_title LIKE '%${keywords[i]}%') 
+                OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%')) `;
+            } else {
+                searchQuery+= `(((show_title LIKE '%${keywords[i]}%') 
+                OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%')) `;
+                OR = true;
+            }
+        }
+        searchQuery += `) `;
     }
 
     if (search.genres !== ""){
@@ -194,20 +213,28 @@ async function getKeywords(post){
     keywords = keywords.concat(reviewComment);
     const conn = await connect();
     let andOr = false;
+    let noValidWords = true;
     let selectQuery = `SELECT * FROM posts WHERE (`;
     for (let i =0; i < keywords.length; i++){
-        if (keywords[i].length > 3){
+        if (keywords[i].length > 2){
             if (andOr === false){
                 selectQuery+= `(show_title LIKE '%${keywords[i]}%') 
                 OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%') `
                 andOr = true;
+                noValidWords = false;
             } else {
                 selectQuery+= `OR (show_title LIKE '%${keywords[i]}%') 
                 OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%') `;
+                noValidWords = false;
             }
         }
     }
     selectQuery+= `) AND ( id != ${post[0].id} ) LIMIT 6`;
+
+    if (noValidWords){
+        selectQuery = `SELECT * FROM posts WHERE ( id != ${post[0].id} ) ORDER BY timestamp DESC LIMIT 6`;
+    }
+
     let data = await conn.query(selectQuery);
     if (data.length < 2 ){
         data = await conn.query(`SELECT * FROM posts WHERE ( id != ${post[0].id} ) ORDER BY timestamp DESC LIMIT 6`);
@@ -230,6 +257,56 @@ app.get('/form', (req, res) => {
 
 app.post('/success', async (req, res) => {
     const data = req.body;
+
+    // form validation
+    let isValid = true;
+    if (data.starRating === 0){
+        isValid = false;
+    }
+
+    if (data.showTitle === ""){
+        isValid = false;
+    } else if (data.showTitle.length >= 100){
+        isValid = false;
+    }
+
+    if (Array.isArray(data.genres)){
+        if (data.genres.length > 5){
+            isValid = false;
+        }
+    } else if (data.genres === ""){
+        isValid = false;
+    }
+
+    if (data.audienceRating === ""){
+        isValid = false;
+    }
+
+    if (data.reviewTitle.length > 100){
+        isValid = false;
+    }
+
+    if (data.reviewComment.length > 500){
+        isValid = false;
+    }
+
+    if (data.username.length > 20){
+        isValid = false;
+    }
+    if (data.username.length !== 0){
+        if (data.username.length <= 3 ){
+            isValid = false;
+        }
+        const validChars = /^[a-zA-Z0-9_.]+$/;
+        const letters = /[a-zA-Z]+/;
+        if ((!validChars.test(data.username))|| (!letters.test(data.username))){
+            isValid = false;
+        }
+    }
+    if (!isValid){
+        res.redirect('form');
+    }
+
     const showTitle = escapeQuotation(data.showTitle);
     const reviewTitle = escapeQuotation(data.reviewTitle);
     const reviewComment = escapeQuotation(data.reviewComment);
@@ -266,7 +343,6 @@ app.get('/search', (req, res) => {
 //  searchTime
 app.post('/search', async (req, res) => {
     let search =  req.body;
-    console.log(search);
     let data = {};
     data = await searchFor(search);
     res.render('search', {data: data, search: search});
@@ -276,7 +352,6 @@ app.get('/search/:category/:query', async (req, res) => {
     const { category, query } = req.params;
     let data;
     const conn = await connect();
-    let author;
     if (category === 'genre'){
         data = await conn.query(`SELECT * FROM posts WHERE genres LIKE '%${query}%' ORDER BY timestamp DESC LIMIT 24`);
     } else if (category === 'username'){
@@ -292,7 +367,6 @@ app.get('/viewPost/:id', async (req, res) => {
     const post = await conn.query(`SELECT * FROM posts WHERE id = ${id}`);
     conn.end();
     const relatedPosts = await getKeywords(post);
-    console.log(relatedPosts);
     res.render('viewPost', {data: post, related: relatedPosts});
 });
 
