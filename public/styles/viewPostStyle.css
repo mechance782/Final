@@ -180,7 +180,7 @@ main > p {
     display: flex;
     flex-flow: row wrap;
     width: 90%;
-    margin: 1em auto;
+    margin: 1em auto 20%;
     justify-content: space-around;
     align-items: flex-start;
 }
@@ -302,8 +302,11 @@ h2 {
 
 @media screen and (min-width: 481px) {
     #pageSuggestion {
-        text-align: end;
-        margin-right: 1.5em;
+        background-color: #121212;
+        width: 96%;
+        position: fixed;
+        bottom: 0;
+        padding: 1em 1em 3%;
     }
 
     #pageSuggestion a{
@@ -323,6 +326,10 @@ h2 {
 }
 
 @media screen and (min-width: 960px) {
+    #pageSuggestion{
+        font-size: 2em;
+    }
+
     .recentPost {
         width: 30%;
     }

@@ -87,7 +87,7 @@ main {
 #recentPostsDisplay {
     display: flex;
     flex-flow: row wrap;
-    margin: 1em 0;
+    margin: 1em 0 20%;
     justify-content: space-around;
     align-items: flex-start;
 }
@@ -197,7 +197,11 @@ main h1 {
 /* TABLET STYLES */
 @media screen and (min-width: 481px) {
     #pageSuggestion {
-        text-align: end;
+        background-color: #121212;
+        width: 96%;
+        position: fixed;
+        bottom: 0;
+        padding: 1em 1em 3%;
     }
 
     #pageSuggestion a{
@@ -218,6 +222,10 @@ main h1 {
 
 /* DESKTOP STYLES */
 @media screen and (min-width: 960px) {
+    #pageSuggestion{
+        font-size: 2em;
+    }
+
     .recentPost {
         width: 30%;
     }
