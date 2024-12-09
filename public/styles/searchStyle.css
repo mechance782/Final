@@ -349,6 +349,11 @@ h2 {
         align-content: center;
     }
 
+    #searchForm > div {
+        width: 30%;
+        min-width: 350px;
+    }
+
     #genreDropDown {
         padding: 1em;
         margin: 0;
