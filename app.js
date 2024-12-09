@@ -351,14 +351,24 @@ app.post('/search', async (req, res) => {
 app.get('/search/:category/:query', async (req, res) => {
     const { category, query } = req.params;
     let data;
+    let search = {
+        keyword: '',
+        author: '',
+        genres: '',
+        searchAudienceRating: '',
+        searchStar: '',
+        searchTime: 'DESC'
+    };
     const conn = await connect();
     if (category === 'genre'){
         data = await conn.query(`SELECT * FROM posts WHERE genres LIKE '%${query}%' ORDER BY timestamp DESC LIMIT 24`);
+        search.genres = ['', query];
     } else if (category === 'username'){
         data = await conn.query(`SELECT * FROM posts WHERE username LIKE '%${query}%' ORDER BY timestamp DESC LIMIT 24`);
+        search.author = query;
     }
     conn.end();
-    res.render('search', {data: data, search: query });
+    res.render('search', {data: data, search: search });
 })
 
 app.get('/viewPost/:id', async (req, res) => {
