@@ -341,4 +341,21 @@ h2 {
     .extraRelatedPost {
         display: block;
     }
+
+    main > p {
+        font-size: .9em;
+    }
+
+    #nameDate p {
+        font-size: .9em;
+    }
+
+    aside p {
+        font-size: 1em;
+        padding-left: 1em;
+    }
+
+    #ratingStars {
+        font-size: 1.2em;
+    }
 }
