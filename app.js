@@ -2,6 +2,7 @@ const express = require(`express`);
 const mariadb = require(`mariadb`);
 require('dotenv').config();
 
+// store databse information in pool with env variables
 const pool = mariadb.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -15,7 +16,7 @@ const PORT = 300;
 
 app.use(express.urlencoded({extended: false}));
 
-// app.use(express.static('public'));
+
 app.use(express.static(__dirname + "/public"));
 
 app.set('view engine', 'ejs');
@@ -52,43 +53,40 @@ function escapeQuotation(input){
     return output;
 }
 
+// The searchFor function parses through search information to build a query string
+// to search the database with
 async function searchFor(search){
-    let data;
+    // connect to database
     const conn = await connect();
+
+    // format and set some necessary variables
     const keyword = escapeQuotation(search.keyword);
     const rating = search.searchAudienceRating;
     const star = search.searchStar;
     const searchTime = search.searchTime;
+    let data;
+    // and boolean determines where the concatenation should include an 'and' or a 'where' sql command
     let and = false;
     let nestedOrder = false;
+    // set up search query string to build on / with
     let timeOrderBy = `, timestamp DESC`;
     let searchQuery = `SELECT * FROM posts `;
 
+    // if keyword is not empty, search for the string in titles, or comments
     if (keyword !== ""){
-        let keywords = keyword.split(" ");
-
         if (and){
             searchQuery+= `AND `;
         } else {
             searchQuery+= `WHERE `
             and = true;
         }
-        let OR = false;
-        
-        for (let i =0; i < keywords.length ; i++){
-            
-            if (OR) {
-                searchQuery+= `OR ((show_title LIKE '%${keywords[i]}%') 
-                OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%')) `;
-            } else {
-                searchQuery+= `(((show_title LIKE '%${keywords[i]}%') 
-                OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%')) `;
-                OR = true;
-            }
-        }
-        searchQuery += `) `;
+        searchQuery+= `((show_title LIKE '%${keyword}%') 
+                OR (review_title LIKE '%${keyword}%') OR (review_comment LIKE '%${keyword}%')) `;
     }
 
+    // if the user searched genres, iterate through the genres array and search for each genre
+    // index 0 in genres search array is always empty to help handle cases where the user does
+    // NOT search for any genres
     if (search.genres !== ""){
         if (and){
             for(let i =1; i < search.genres.length; i++){
@@ -103,6 +101,7 @@ async function searchFor(search){
         }
     }
 
+    // if user searches a username, check for usernames containing the search
     if (search.author !== ""){
         if (and){
             searchQuery+= `AND (username LIKE '%${search.author}%') `;
@@ -121,13 +120,21 @@ async function searchFor(search){
         }
     }
 
+    // every search is automatically sorted by time descending, so we only need to check
+    // for input when the time is not desc. 
     if (searchTime !== 'DESC'){
         if (searchTime !== 'ASC'){
+            // get the machines current date
             const currDate = new Date();
             let pastDate = new Date();
+
             if (searchTime === 'pastMonth'){
+                // set the date to 30 days in the past (for the search)
+                // and subtract 8 hours (to match Pacific Time Zone)
                 pastDate.setDate(currDate.getDate() - 30);
                 pastDate.setHours(pastDate.getHours() - 8);
+
+                // format date for database interaction and search
                 pastDate = pastDate.toISOString();
                 pastDate = pastDate.substring(0, 19);
                 if (and){
@@ -165,7 +172,9 @@ async function searchFor(search){
     }
 
     if (star !== ''){
+        // if the star search is not asc or desc then it's a number
         if ((star !== 'ASC') && (star !== 'DESC')){
+            // format for database interaction
             const starNumber = Number(star);
             if (and){
                 searchQuery+= `AND (star_rating = ${starNumber}) `;
@@ -174,6 +183,8 @@ async function searchFor(search){
                 and = true;
             }
         } else if (star === 'ASC'){
+            // order by statements are added to a different string 
+            // because they need to be tacked on to the search query at the end of all the 'where' statements
             nestedOrder = true;
             orderBy= `ORDER BY star_rating ASC`;
         } else {
@@ -182,14 +193,17 @@ async function searchFor(search){
         }
     }
 
+    // if nested order is true, that means the query is ordering by 2 columns at the same time
     if (nestedOrder) {
         orderBy+= timeOrderBy;
         searchQuery+= orderBy;
     } else {
+        // if nested order is false, then the query is ordered by time desc by default
         searchQuery += `ORDER BY `;
         searchQuery+= timeOrderBy.substring(1, timeOrderBy.length);
     }
 
+    // searches can only return up to 24 posts for now
     searchQuery+= ` LIMIT 24`;
     try {
         data = await conn.query(searchQuery);
@@ -200,6 +214,12 @@ async function searchFor(search){
     }
 }
 
+// the getkeywords function gets all text inputs from a post and returns post data from related posts.
+// It seperates each word and puts it into an array. Then it goes through the array and 
+// if the word is longer than 3 characters, it's considered a keyword. Each keyword
+// is added to the search query string to search for any posts with similar text inputs.
+// If there are no keywords in a post, or no matches in the database, then the function 
+// returns recent posts instead.
 async function getKeywords(post){
     let keywords = [];
     let showTitle = escapeQuotation(post[0].show_title);
@@ -216,7 +236,7 @@ async function getKeywords(post){
     let noValidWords = true;
     let selectQuery = `SELECT * FROM posts WHERE (`;
     for (let i =0; i < keywords.length; i++){
-        if (keywords[i].length > 2){
+        if (keywords[i].length > 3){
             if (andOr === false){
                 selectQuery+= `(show_title LIKE '%${keywords[i]}%') 
                 OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%') `
@@ -229,14 +249,14 @@ async function getKeywords(post){
             }
         }
     }
-    selectQuery+= `) AND ( id != ${post[0].id} ) LIMIT 6`;
+    selectQuery+= `) AND ( id != ${post[0].id} ) ORDER BY timestamp DESC LIMIT 6`;
 
     if (noValidWords){
         selectQuery = `SELECT * FROM posts WHERE ( id != ${post[0].id} ) ORDER BY timestamp DESC LIMIT 6`;
     }
 
     let data = await conn.query(selectQuery);
-    if (data.length < 2 ){
+    if (data.length < 1 ){
         data = await conn.query(`SELECT * FROM posts WHERE ( id != ${post[0].id} ) ORDER BY timestamp DESC LIMIT 6`);
     }
     conn.end();
@@ -335,12 +355,6 @@ app.get('/search', (req, res) => {
 });
 
 // Search page after sending search query
-//  keyword
-//  author
-//  searchGenre
-//  searchAudienceRating
-//  searchStar
-//  searchTime
 app.post('/search', async (req, res) => {
     let search =  req.body;
     let data = {};
@@ -348,9 +362,11 @@ app.post('/search', async (req, res) => {
     res.render('search', {data: data, search: search});
 })
 
+// search page for links for usernames and genres
 app.get('/search/:category/:query', async (req, res) => {
     const { category, query } = req.params;
     let data;
+    // create empty/default search for the search.ejs page to accept
     let search = {
         keyword: '',
         author: '',
@@ -371,6 +387,7 @@ app.get('/search/:category/:query', async (req, res) => {
     res.render('search', {data: data, search: search });
 })
 
+// route to view an individual post (and it's related posts)
 app.get('/viewPost/:id', async (req, res) => {
     const { id } = req.params;
     const conn = await connect();
