@@ -65,7 +65,7 @@ async function searchFor(search){
     let searchQuery = `SELECT * FROM posts `;
 
     if (keyword !== ""){
-        let keywords = keyword.split(" ");
+        // let keywords = keyword.split(" ");
 
         if (and){
             searchQuery+= `AND `;
@@ -73,20 +73,9 @@ async function searchFor(search){
             searchQuery+= `WHERE `
             and = true;
         }
-        let OR = false;
+        searchQuery+= `((show_title LIKE '%${keyword}%') 
+                OR (review_title LIKE '%${keyword}%') OR (review_comment LIKE '%${keyword}%')) `;
         
-        for (let i =0; i < keywords.length ; i++){
-            
-            if (OR) {
-                searchQuery+= `OR ((show_title LIKE '%${keywords[i]}%') 
-                OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%')) `;
-            } else {
-                searchQuery+= `(((show_title LIKE '%${keywords[i]}%') 
-                OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%')) `;
-                OR = true;
-            }
-        }
-        searchQuery += `) `;
     }
 
     if (search.genres !== ""){
@@ -216,7 +205,7 @@ async function getKeywords(post){
     let noValidWords = true;
     let selectQuery = `SELECT * FROM posts WHERE (`;
     for (let i =0; i < keywords.length; i++){
-        if (keywords[i].length > 2){
+        if (keywords[i].length > 3){
             if (andOr === false){
                 selectQuery+= `(show_title LIKE '%${keywords[i]}%') 
                 OR (review_title LIKE '%${keywords[i]}%') OR (review_comment LIKE '%${keywords[i]}%') `
@@ -229,14 +218,14 @@ async function getKeywords(post){
             }
         }
     }
-    selectQuery+= `) AND ( id != ${post[0].id} ) LIMIT 6`;
+    selectQuery+= `) AND ( id != ${post[0].id} ) ORDER BY timestamp DESC LIMIT 6`;
 
     if (noValidWords){
         selectQuery = `SELECT * FROM posts WHERE ( id != ${post[0].id} ) ORDER BY timestamp DESC LIMIT 6`;
     }
 
     let data = await conn.query(selectQuery);
-    if (data.length < 2 ){
+    if (data.length < 1 ){
         data = await conn.query(`SELECT * FROM posts WHERE ( id != ${post[0].id} ) ORDER BY timestamp DESC LIMIT 6`);
     }
     conn.end();
