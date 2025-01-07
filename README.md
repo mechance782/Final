@@ -16,6 +16,8 @@
 
 This program lets users post, view, and search for TV show reviews.
 
+<img width="400" alt="Home page with menu drop-down" src="https://github.com/user-attachments/assets/87da3eba-d19e-4ca4-a797-611e733bd32b" /> <img width="400" alt="Search page where the user searched for crime documentaries sorted by the lowest star rating" src="https://github.com/user-attachments/assets/98e225f7-578f-455c-a92f-573108dfb26a" /> <img width="400" alt="Application form for posting" src="https://github.com/user-attachments/assets/c01bbbab-f11d-4d5d-802e-a134030c71e7" /> <img width="400" alt="Application's view post page" src="https://github.com/user-attachments/assets/f1a93470-74b7-4ee0-9c9b-bd500f9f820f" />
+
 ### Technologies
 
 - [dotenv](https://www.npmjs.com/package/dotenv)
